@@ -137,12 +137,10 @@ export const uzUZ: LocalizationResource = {
 			blockButton__resetPassword: 'Parolni qayta tiklash',
 		},
 		forgotPassword: {
-			title_emaiL: 'Pochtangizni tekshiring',
-			title_phone: 'Telefon raqamingizni tekshiring',
+			subtitle_email: 'Pochtangizni tekshiring',
+			subtitle_phone: 'Telefon raqamingizni tekshiring',
 			subtitle: 'Parolni tiklash uchun',
 			formTitle: 'Parolni qayta tiklash kodi',
-			formSubtitle_email: 'Pochtangizga yuborilgan kodi kiriting',
-			formSubtitle_phone: 'Telefon raqamingizga yuborilgan kodi kiriting',
 			resendButton: 'Kodni qayta yuborish',
 		},
 		resetPassword: {
@@ -159,7 +157,7 @@ export const uzUZ: LocalizationResource = {
 			title: 'Pochtangizni tekshiring',
 			subtitle: '"{{applicationName}}" da ishlashni davom ettirish uchun',
 			formTitle: 'Tasdiqlash kodi',
-			formSubtitle: 'Pochtaga yuborilgan tasdiqlash kodi ni kiriting',
+			// formSubtitle: 'Pochtaga yuborilgan tasdiqlash kodi ni kiriting',
 			resendButton: 'Kodni qayta yuborish',
 		},
 		emailLink: {
@@ -200,14 +198,11 @@ export const uzUZ: LocalizationResource = {
 			title: 'Ikkinchi bosqichli tasdiqlash',
 			subtitle: '',
 			formTitle: 'Tasdiqlash kodi',
-			formSubtitle:
-				"O'zingizning tasdiqlash apparatingizdan olingan tasdiqlash kodini kiriting",
 		},
 		backupCodeMfa: {
 			title: 'Qayta tiklash kodi ni kiriting',
 			subtitle: '"{{applicationName}}" da ishlashni davom ettirish uchun',
-			formTitle: '',
-			formSubtitle: '',
+
 		},
 		alternativeMethods: {
 			title: 'Boshqa usulni ishlatish',
@@ -239,14 +234,12 @@ export const uzUZ: LocalizationResource = {
 		start: {
 			headerTitle__account: 'Hisob',
 			headerTitle__security: 'Xavfsizlik',
-			headerSubtitle__account: "Hisob ma'lumotlarini boshqarish",
-			headerSubtitle__security: 'Xavfsizlik sozlamalarini boshqarish',
 			profileSection: {
 				title: 'Profil',
 			},
 			usernameSection: {
 				title: 'Foydalanuvchi nomi',
-				primaryButton__changeUsername: "Foydalanuvchi nomini o'zgartirish",
+				primaryButton__updateUsername: "Foydalanuvchi nomini o'zgartirish",
 				primaryButton__setUsername: 'Foydalanuvchi nomini sozlash',
 			},
 			// ... (the translation continues for the rest of the sections)
@@ -256,15 +249,15 @@ export const uzUZ: LocalizationResource = {
 			imageFormTitle: 'Profil rasmi',
 			imageFormSubtitle: 'Rasmni yuklash',
 			imageFormDestructiveActionSubtitle: "Rasmni o'chirish",
-			fileDropAreaTitle: 'Faylni bu yerga tashlang yoki...',
-			fileDropAreaAction: 'Faylni tanlang',
+			// fileDropAreaTitle: 'Faylni bu yerga tashlang yoki...',
+			// fileDropAreaAction: 'Faylni tanlang',
 			fileDropAreaHint:
 				'JPG, PNG, GIF yoki WEBP formatidagi rasmni 10 MB dan kichikroq yuklang',
 			successMessage: 'Sizning profiliz yangilandi.',
 		},
 
 		usernamePage: {
-			title: 'Foydalanuvchi nomini yangilash',
+			// title: 'Foydalanuvchi nomini yangilash',
 			successMessage: 'Foydalanuvchi nomi yangilandi.',
 		},
 		emailAddressPage: {
@@ -299,8 +292,8 @@ export const uzUZ: LocalizationResource = {
 			title: "Telefon raqamini qo'shish",
 			successMessage: "{{identifier}} sizning hisobingizga qo'shildi.",
 			infoText: 'Ushbu telefon raqamiga tasdiq havolasi yuboriladi.',
-			infoText__secondary:
-				"Xabarlar va ma'lumotlar uchun tariflar qo'llanilishi mumkin.",
+			// infoText__secondary:
+			// 	"Xabarlar va ma'lumotlar uchun tariflar qo'llanilishi mumkin.",
 			removeResource: {
 				title: 'Telefon raqamini olib tashlash',
 				messageLine1: '{{identifier}} ushbu hisobdan olib tashlanadi.',
@@ -340,11 +333,11 @@ export const uzUZ: LocalizationResource = {
 			},
 		},
 		passwordPage: {
-			title: 'Parolni sozlash',
-			changePasswordTitle: "Parolni o'zgartirish",
-			successMessage: "Sizning parolingiz qo'shildi.",
-			changePasswordSuccessMessage: 'Sizning parolingiz yangilandi.',
-			sessionsSignedOutSuccessMessage:
+			title__set: 'Parolni sozlash',
+			title__update: "Parolni o'zgartirish",
+			successMessage__set: "Sizning parolingiz qo'shildi.",
+			successMessage__update: 'Sizning parolingiz yangilandi.',
+			successMessage__signOutOfOtherSessions:
 				'Barcha boshqa qurilmalar tizimdan chiqarildi.',
 		},
 		mfaPage: {
@@ -385,7 +378,7 @@ export const uzUZ: LocalizationResource = {
 				'SMS-kod bilan ikki bosqichli tekshirish uchun telefon raqamini tanlang.',
 			subtitle__unavailablePhoneNumbers:
 				'SMS-kod bilan ikki bosqichli tekshirish uchun mavjud emas telefon raqamlari.',
-			successMessage:
+			successMessage1:
 				'Bu telefon raqamida SMS-kod bilan ikki bosqichli tekshirish faollashtirildi. Tizimga kirishda sizga bu telefon raqami tomonidan yuborilgan tasdiq kodi ni kiritish talab qilinadi.',
 			removeResource: {
 				title: "Ikki bosqichli tekshirishni o'chirish",
@@ -433,14 +426,11 @@ export const uzUZ: LocalizationResource = {
 	organizationProfile: {
 		start: {
 			headerTitle__members: "A'zolar",
-			headerTitle__settings: 'Sozlamalar',
-			headerSubtitle__members:
-				"Tashkilot a'zolarini ko'rib boshlash va boshqarish",
-			headerSubtitle__settings: 'Tashkilot sozlamalarini boshqarish',
+			headerTitle__general: 'Sozlamalar',
 		},
 		profilePage: {
 			title: 'Tashkilot profil',
-			subtitle: 'Tashkilot profilini boshqarish',
+			// subtitle: 'Tashkilot profilini boshqarish',
 			successMessage: 'Tashkilot yangilandi.',
 			dangerSection: {
 				title: 'Xavotir',
@@ -466,8 +456,8 @@ export const uzUZ: LocalizationResource = {
 				subtitle:
 					"Foydalanuvchilarga, ularning elektron pochtasi domenlarini tasdiqlanmaguncha tashkilotga avtomatik ravishda yoki so'roq qilishlari mumkin bo'lsa, izin bering.",
 				primaryButton: "Domen qo'shish",
-				unverifiedDomain_menuAction__verify: 'Domenni tasdiqlash',
-				unverifiedDomain_menuAction__remove: 'Domenni olib tashlash',
+				// unverifiedDomain_menuAction__verify: 'Domenni tasdiqlash',
+				// unverifiedDomain_menuAction__remove: 'Domenni olib tashlash',
 			},
 		},
 		createDomainPage: {
@@ -505,7 +495,7 @@ export const uzUZ: LocalizationResource = {
 				automaticSuggestionOption__label: 'Avtomatik tavsiyalar',
 				automaticSuggestionOption__description:
 					"Foydalanuvchilar avtomatik ravishda tashkilotga qo'shilish uchun ariza yuborishga taklif olishadi. Foydalanuvchi tashkilotga qo'shilishi uchun administratorning roziligini talab qiladi.",
-				formButton__save: 'Saqlash',
+				// formButton__save: 'Saqlash',
 				calloutInfoLabel:
 					"Qo'shilish usulini o'zgartirish faqat yangi foydalanuvchilar uchun ta'sir ko'rsatadi.",
 				calloutInvitationCountLabel: 'Takliflar yuborildi: {{count}}',
