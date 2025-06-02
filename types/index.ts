@@ -57,3 +57,9 @@ export interface IBlog {
 	content: { html: string }
 	slug: string
 }
+
+export type Props1 = {
+	params: Promise<{
+		slug: string
+	}>
+}

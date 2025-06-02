@@ -6,6 +6,7 @@ import Image from 'next/image'
 import ShareBtns from './_components/share-btns'
 import parse from 'html-react-parser'
 import { Separator } from '@/components/ui/separator'
+import { Props1 } from '@/types'
 
 // export async function generateMetadata(
 // 	{ params }: { params: { slug: string } },
@@ -23,8 +24,9 @@ import { Separator } from '@/components/ui/separator'
 // 		},
 // 	}
 // }
-async function Page({ params }: { params: { slug: string } }) {
-	const blog = await getDetailedBlog(params.slug)
+async function Page({ params }: Props1) {
+	const { slug } = await params
+	const blog = await getDetailedBlog(slug)
 
 	return (
 		<div className='container mx-auto px-2 max-w-5xl pt-[15vh]'>
