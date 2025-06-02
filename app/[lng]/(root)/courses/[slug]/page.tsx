@@ -17,7 +17,7 @@ import { LngParams } from '@/types'
 import { translation } from '@/i18n/server'
 
 async function Page({ params }: LngParams) {
-	const { lng } = params
+	const { lng } = await params
 	const { t } = await translation(lng)
 
 	return (

@@ -6,7 +6,7 @@ import { Mail, Phone } from 'lucide-react'
 import React from 'react'
 
 async function Page({ params }: LngParams) {
-	const { lng } = params
+	const { lng } = await params
 	const { t } = await translation(lng)
 
 	return (
