@@ -3,7 +3,10 @@
 import React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import useTranslate from '@/hooks/use-translate'
-import ReactStars from 'react-stars'
+import dynamic from 'next/dynamic'
+
+// Dynamically import ReactStars with SSR disabled
+const ReactStars = dynamic(() => import('react-stars'), { ssr: false })
 
 function ReviewCard() {
 	const t = useTranslate()
@@ -12,11 +15,7 @@ function ReviewCard() {
 		<div className='mt-6 border-t border-t-secondary'>
 			<div className='mt-8 flex gap-2'>
 				<Avatar>
-					<AvatarImage
-						src={
-							'https://media.istockphoto.com/id/1682296067/photo/happy-studio-portrait-or-professional-man-real-estate-agent-or-asian-businessman-smile-for.jpg?s=612x612&w=0&k=20&c=9zbG2-9fl741fbTWw5fNgcEEe4ll-JegrGlQQ6m54rg='
-						}
-					/>
+					<AvatarImage src='https://media.istockphoto.com/id/1682296067/photo/happy-studio-portrait-or-professional-man-real-estate-agent-or-asian-businessman-smile-for.jpg?s=612x612&w=0&k=20&c=9zbG2-9fl741fbTWw5fNgcEEe4ll-JegrGlQQ6m54rg=' />
 					<AvatarFallback className='uppercase'>sb</AvatarFallback>
 				</Avatar>
 

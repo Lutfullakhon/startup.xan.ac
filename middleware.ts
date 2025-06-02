@@ -1,6 +1,6 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import createIntlMiddleware from 'next-intl/middleware';
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 // Define locales
 const locales = ['en', 'ru', 'uz', 'tr'];
@@ -19,7 +19,7 @@ export default clerkMiddleware(async (authPromise, req: NextRequest) => {
   const pathname = req.nextUrl.pathname
 
   if (pathname === '/en/api/webhook') {
-    return;
+    return NextResponse.next(); // ✅ Return valid response
   }
 
   // Handle i18n routing
@@ -33,6 +33,8 @@ export default clerkMiddleware(async (authPromise, req: NextRequest) => {
   if (!isPublicRoute(req)) {
     await auth.protect();
   }
+
+  return NextResponse.next()
 
   // Allow request to proceed
 });
