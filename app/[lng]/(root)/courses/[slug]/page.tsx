@@ -16,7 +16,8 @@ import CourseCard from '@/components/cards/course.card'
 import { LngParams } from '@/types'
 import { translation } from '@/i18n/server'
 
-async function Page({ params: { lng } }: LngParams) {
+async function Page({ params }: LngParams) {
+	const { lng } = params
 	const { t } = await translation(lng)
 
 	return (
