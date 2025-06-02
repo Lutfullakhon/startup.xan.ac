@@ -16,6 +16,12 @@ const intlMiddleware = createIntlMiddleware({
 const isPublicRoute = createRouteMatcher(['/:lng', '/:lng/courses', '/:lng/courses/:slug', '/:lng/blogs', '/:lng/blogs/:slug', '/:lng/contacts']);
 
 export default clerkMiddleware(async (authPromise, req: NextRequest) => {
+  const pathname = req.nextUrl.pathname
+
+  if (pathname === '/en/api/webhook') {
+    return;
+  }
+
   // Handle i18n routing
   const intlResponse = intlMiddleware(req);
   if (intlResponse) return intlResponse;
