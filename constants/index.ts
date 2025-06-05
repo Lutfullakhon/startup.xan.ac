@@ -231,3 +231,29 @@ export const courseCategory = [
 	'game',
 ]
 export const courseLanguage = ['english', 'uzbek', 'russian', 'turkish']
+
+export const editorConfig = {
+	height: 150,
+	menubar: false,
+	plugins: [
+		'advlist',
+		'autolink',
+		'lists',
+		'link',
+		'image',
+		'charmap',
+		'preview',
+		'anchor',
+		'searchreplace',
+		'visualblocks',
+		'codesample',
+		'fullscreen',
+		'insertdatetime',
+		'media',
+		'table',
+	],
+	toolbar: 'link |' + 'bullist numlist',
+	content_style: 'body { font-family:Inter; font-size:16px }',
+	skin: 'oxide-dark',
+	content_css: 'dark',
+}

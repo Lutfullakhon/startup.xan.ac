@@ -13,9 +13,9 @@ const CourseSchema = new Schema(
 		currentPrice: Number,
 		previewImage: String,
 		published: { type: Boolean, default: false },
-		// instructor: { type: Schema.Types.ObjectId, ref: 'User' },
-		// slug: String,
-		// tags: String,
+		instructor: { type: Schema.Types.ObjectId, ref: 'User' },
+		slug: String,
+		tags: String,
 		// purchases: [{ type: Schema.Types.ObjectId, ref: 'Purchase' }],
 	},
 	{ timestamps: true }
