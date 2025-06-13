@@ -13,6 +13,11 @@ export interface ICourse {
 	published: boolean
 	slug: string
 	tags: string
+	instructor: IUser
+	updatedAt: string
+	totalLessons: number
+	totalSections: number
+	totalDuration: string
 }
 
 export interface ISection {
@@ -20,6 +25,7 @@ export interface ISection {
 	_id: string
 	position: number
 	course: string
+	lessons: ILesson[]
 }
 
 export interface ILesson {
@@ -34,4 +40,24 @@ export interface ILesson {
 		minutes: number
 		seconds: number
 	}
+}
+
+export interface IUser {
+	_id: string
+	clerkId: string
+	fullName: string
+	email: string
+	picture: string
+	role: string
+	bio: string
+	phone: string
+	job: string
+	website: string
+	linkedin: string
+	github: string
+	youtube: string
+}
+
+export interface searchParamsProps {
+	searchParams: {[key: string]: string | undefined}
 }

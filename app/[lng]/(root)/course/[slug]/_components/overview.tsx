@@ -10,18 +10,37 @@ import {
 	MonitorPlay,
 	Star,
 } from 'lucide-react'
-import React from 'react'
-import {
-	Accordion,
-	AccordionContent,
-	AccordionItem,
-	AccordionTrigger,
-} from '@/components/ui/accordion'
+import React, { useEffect, useState } from 'react'
+import { Accordion } from '@/components/ui/accordion'
 import ReviewCard from '@/components/cards/review.card'
 import { Button } from '@/components/ui/button'
+import { ICourse, ISection } from '@/app.types'
+import { getCourseSections } from '@/actions/section.action'
+import SectionList from './section-list'
+import SectionLoading from '@/components/shared/section-loading'
 
-function Overview() {
+function Overview(course: ICourse) {
+	const [isLoading, setIsLoading] = useState(true)
+	const [sections, setSections] = useState<ISection[]>([])
+
 	const t = useTranslate()
+
+	useEffect(() => {
+		const getData = async () => {
+			try {
+				const res = await getCourseSections(course._id)
+				setSections(res)
+				setIsLoading(false)
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			} catch (error) {
+				setIsLoading(false)
+			}
+		}
+
+		getData()
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
 
 	return (
 		<>
@@ -31,7 +50,7 @@ function Overview() {
 				</h2>
 
 				<div className='mt-5 grid grid-cols-1 gap-4 md:grid-cols-2'>
-					{learn.split(', ').map(item => (
+					{course.learning.split(', ').map(item => (
 						<div className={'flex gap-2'} key={item}>
 							<BadgeCheck className='size-5 text-blue-500' />
 							<p className='flex-1'>{item}</p>
@@ -51,7 +70,7 @@ function Overview() {
 						<p className='font-space-grotesk text-xl font-bold'>
 							{t('numberOfModules')}
 						</p>
-						<div className='text-2xl font-medium'>4</div>
+						<div className='text-2xl font-medium'>{course.totalSections}</div>
 					</div>
 
 					<div className='flex flex-col'>
@@ -59,7 +78,7 @@ function Overview() {
 						<p className='font-space-grotesk text-xl font-bold'>
 							{t('numberOfLessons')}
 						</p>
-						<div className='text-2xl font-medium'>90 ta</div>
+						<div className='text-2xl font-medium'>{course.totalLessons}</div>
 					</div>
 
 					<div className='flex flex-col '>
@@ -68,31 +87,37 @@ function Overview() {
 							{t('courseDuration')}
 						</p>
 						<div className='text-2xl font-medium'>
-							20 {t('hours')} 40 {t('minutes')}
+							{course.totalDuration.split('.')[0]} {t('hours')}{' '}
+							{course.totalDuration.split('.')[1]} {t('minutes')}
 						</div>
 					</div>
 				</div>
 
 				<Separator className='my-3' />
 
-				<Accordion type='single' collapsible>
-					<AccordionItem value='item-1'>
-						<AccordionTrigger>Is it accessible?</AccordionTrigger>
-						<AccordionContent>
-							Yes. It adheres to the WAI-ARIA design pattern.
-						</AccordionContent>
-					</AccordionItem>
-				</Accordion>
+				{isLoading ? (
+					<div className='mt-4 flex flex-col gap-1'>
+						{Array.from({ length: course.totalSections }).map((_, i) => (
+							<SectionLoading key={i} />
+						))}
+					</div>
+				) : (
+					<Accordion type='single' collapsible>
+						{sections.map(section => (
+							<SectionList key={section._id} {...section} />
+						))}
+					</Accordion>
+				)}
 			</div>
 
 			<div className='mt-8 rounded-md bg-secondary p-4 lg:p-6'>
 				<h2 className='font-space-grotesk text-3xl font-bold'>
-					{t('courseForWhom')}
+					{t('requirements')}
 				</h2>
 
 				<div className='mt-2'>
 					<div className='mt-5 grid grid-cols-1 gap-4 md:grid-cols-2'>
-						{forWhom.split(', ').map(i => (
+						{course.requirements.split(', ').map(i => (
 							<div className={'flex gap-2'} key={i}>
 								<Dot />
 								<p className='flex-1 text-slate-400'>{i}</p>
@@ -180,7 +205,7 @@ function Overview() {
 
 export default Overview
 
-const learn = 'Javsicript, Ajax, Algoritm, Promise, Git and Githab, JSON-server'
+// const learn = 'Javsicript, Ajax, Algoritm, Promise, Git and Githab, JSON-server'
 
-const forWhom =
-	'jghxfhgmguik.cffggjd, ulyisswergdfxcvftylkfui, srtjjchjyhxmch, gmxghmsgrnhnmcdrkyxh'
+// const forWhom =
+// 	'jghxfhgmguik.cffggjd, ulyisswergdfxcvftylkfui, srtjjchjyhxmch, gmxghmsgrnhnmcdrkyxh'

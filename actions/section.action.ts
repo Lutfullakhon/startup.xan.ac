@@ -78,3 +78,21 @@ export const updateSectionTitle = async (
 		throw new Error('Something went wrong!')
 	}
 }
+
+export const getCourseSections = async (id: string) => {
+	try {
+		await connectToDatabase()
+
+		const sections = await Section.find({ course: id })
+			.sort({ position: 1 })
+			.populate({
+				path: 'lessons',
+				options: { sort: { position: 1 } },
+				model: Lesson,
+			})
+
+		return JSON.parse(JSON.stringify(sections))
+	} catch (error) {
+		throw new Error('Something went wrong!')
+	}
+}

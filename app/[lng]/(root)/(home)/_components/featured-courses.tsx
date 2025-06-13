@@ -1,5 +1,6 @@
 'use client'
 
+import { ICourse } from '@/app.types'
 import CourseCard from '@/components/cards/course.card'
 import { Button } from '@/components/ui/button'
 import {
@@ -9,14 +10,31 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from '@/components/ui/carousel'
-import { courses, filterCourses } from '@/constants'
+import { filterCourses } from '@/constants'
 import useTranslate from '@/hooks/use-translate'
-import { cn } from '@/lib/utils'
-import React, { useState } from 'react'
+import { cn, formUrlQuery } from '@/lib/utils'
+import { useRouter, useSearchParams } from 'next/navigation'
+import React from 'react'
 
-function FeaturedCourses() {
-	const [filter, setFilter] = useState('all')
+interface Props {
+	courses: ICourse[]
+}
+
+function FeaturedCourses({ courses }: Props) {
 	const t = useTranslate()
+	const searchParams = useSearchParams()
+	const router = useRouter()
+
+	const onUpdateParams = (value: string) => {
+		const newUrl = formUrlQuery({
+			value,
+			key: 'filter',
+			params: searchParams.toString(),
+			toCourses: true,
+		})
+
+		router.push(newUrl)
+	}
 
 	return (
 		<div className='container mx-auto max-w-6xl py-12 px-4'>
@@ -41,12 +59,12 @@ function FeaturedCourses() {
 					{filterCourses.map(item => (
 						<Button
 							key={item.name}
-							variant={filter === item.name ? 'secondary' : 'ghost'}
+							variant={item.name ? 'secondary' : 'ghost'}
 							className={cn(
 								'font-medium whitespace-nowrap',
-								filter === item.name && 'text-primary'
+								item.name && 'text-primary'
 							)}
-							onClick={() => setFilter(item.name)}
+							onClick={() => onUpdateParams(item.name)}
 						>
 							{t(item.label)}
 						</Button>

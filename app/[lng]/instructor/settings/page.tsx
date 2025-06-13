@@ -1,36 +1,34 @@
-'use client'
-
-import React from 'react'
+import { Separator } from '@/components/ui/separator'
 import Header from '../_components/header'
-import { SignedIn, SignedOut, UserProfile } from '@clerk/nextjs'
-import { useTheme } from 'next-themes'
-import { dark } from '@clerk/themes'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import Profile from './_components/profile'
+import Account from './_components/account'
 
-function Page() {
-	const { resolvedTheme } = useTheme()
+import { getUserById } from '@/actions/user.action'
+import { auth } from '@clerk/nextjs/server'
 
-	const appearance = {
-		baseTheme: resolvedTheme === 'dark' ? dark : undefined,
-		variables: {
-			colorBackground: resolvedTheme === 'dark' ? '#020817' : '#fff',
-		},
-	}
+async function Page() {
+	const { userId } = await auth()
+	const userJSON = await getUserById(userId!)
+
+	const user = JSON.parse(JSON.stringify(userJSON))
 
 	return (
 		<>
 			<Header title='Settings' description='Manage your account settings' />
-
-			<div className='mt-6'>
-				<SignedIn>
-					<UserProfile routing='hash' appearance={appearance} />
-				</SignedIn>
-
-				<SignedOut>
-					<p className='text-center text-red-500'>
-						You must be signed in to view your profile settings.
-					</p>
-				</SignedOut>
-			</div>
+			<Separator className='my-3 bg-muted-foreground' />
+			<Tabs defaultValue='profile'>
+				<TabsList>
+					<TabsTrigger value='profile'>Profile</TabsTrigger>
+					<TabsTrigger value='account'>Account</TabsTrigger>
+				</TabsList>
+				<TabsContent value='profile'>
+					<Profile />
+				</TabsContent>
+				<TabsContent value='account'>
+					<Account {...user} />
+				</TabsContent>
+			</Tabs>
 		</>
 	)
 }

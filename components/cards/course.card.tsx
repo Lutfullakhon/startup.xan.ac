@@ -1,13 +1,15 @@
-import { ICourse } from '@/types'
 import Link from 'next/link'
 import React from 'react'
 import { Card, CardContent } from '../ui/card'
 import Image from 'next/image'
 import { Separator } from '../ui/separator'
+import { ICourse } from '@/app.types'
 
 function CourseCard(course: ICourse) {
+	const hasInstructor = !!course.instructor && !!course.instructor.picture
+
 	return (
-		<Link href={'/courses/reactjs'}>
+		<Link href={`/course/${course._id}`}>
 			<Card className='group'>
 				<CardContent className='relative h-56 w-full'>
 					<Image
@@ -27,16 +29,20 @@ function CourseCard(course: ICourse) {
 					<div className='flex items-center justify-between'>
 						<div className='flex items-center gap-2'>
 							<div className='relative size-[40px]'>
-								<Image
-									src={course.author.image}
-									alt={course.author.name}
-									fill
-									className='rounded-full'
-									sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-								/>
+								{hasInstructor ? (
+									<Image
+										src={course.instructor.picture}
+										alt={course.instructor.fullName || 'Instructor'}
+										fill
+										className='rounded-full'
+										sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+									/>
+								) : (
+									<div className='size-[40px] rounded-full bg-gray-200' />
+								)}
 							</div>
 							<p className='text-sm text-muted-foreground'>
-								{course.author.name}
+								{course.instructor?.fullName || 'Unknown Instructor'}
 							</p>
 						</div>
 

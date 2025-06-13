@@ -1,4 +1,3 @@
-
 import { z } from 'zod'
 
 export const contactSchema = z.object({
@@ -57,4 +56,14 @@ export const lessonSchema = z.object({
 	minutes: z.string(),
 	seconds: z.string(),
 	free: z.boolean().default(false).optional(),
+})
+
+export const profileSchema = z.object({
+	bio: z.string().min(6).optional(),
+	phone: z.string().optional(),
+	job: z.string().min(3).optional(),
+	website: z.string().url().optional(),
+	linkedin: z.string().url().optional(),
+	github: z.string().url().optional(),
+	youtube: z.string().url().optional(),
 })

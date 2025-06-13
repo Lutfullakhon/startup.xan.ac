@@ -11,14 +11,21 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from '@/components/ui/carousel'
-import { courses } from '@/constants'
 import CourseCard from '@/components/cards/course.card'
 import { LngParams } from '@/types'
 import { translation } from '@/i18n/server'
+import { getDetailedCourse, getFeaturedCourses } from '@/actions/course.action'
+import { ICourse } from '@/app.types'
 
 async function Page({ params }: LngParams) {
-	const { lng } = await params
+	const { lng, slug } = await params
 	const { t } = await translation(lng)
+
+	const courseJSON = await getDetailedCourse(slug)
+	const coursesJSON = await getFeaturedCourses()
+
+	const course = JSON.parse(JSON.stringify(courseJSON))
+	const courses = JSON.parse(JSON.stringify(coursesJSON))
 
 	return (
 		<>
@@ -26,12 +33,12 @@ async function Page({ params }: LngParams) {
 			<div className='container px-4 mx-auto max-w-6xl'>
 				<div className='grid grid-cols-3 gap-4 pt-12'>
 					<div className='col-span-2 max-lg:col-span-3'>
-						<Hero />
-						<Overview />
+						<Hero {...course} />
+						<Overview {...course} />
 					</div>
 
 					<div className='col-span-1 max-lg:col-span-3'>
-						<Description />
+						<Description {...course} />
 					</div>
 				</div>
 
@@ -42,7 +49,7 @@ async function Page({ params }: LngParams) {
 
 				<Carousel opts={{ align: 'start' }} className='mt-6 w-full'>
 					<CarouselContent>
-						{courses.map(course => (
+						{courses.map((course: ICourse) => (
 							<CarouselItem
 								key={course.title}
 								className='md:basis-1/2 lg:basis-1/3'

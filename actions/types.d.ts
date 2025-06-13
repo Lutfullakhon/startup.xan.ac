@@ -20,11 +20,8 @@ export interface ICreateUser {
 
 export interface IUpdateUser {
 	clerkId: string
-	updatedData: {
-		fullName: string
-		email: string
-		picture: string
-	}
+	path?: string
+	updatedData: Partial<IUser>
 }
 
 export interface IUpdateSection {
@@ -52,3 +49,16 @@ export interface IUpdatePosition {
 	lists: {_id: string; position: number}[]
 	path: string
 }
+
+export interface GetCoursesParams {
+	clerkId: string
+	page?: number
+	pageSize?: number	
+}
+export interface GetAllCoursesParams {
+	page?: number
+	pageSize?: number
+	searchQuery?: string
+	filter?: string
+}
+

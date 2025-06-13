@@ -13,7 +13,7 @@ const intlMiddleware = createIntlMiddleware({
 });
 
 // Define which routes are public (don’t need auth)
-const isPublicRoute = createRouteMatcher(['/:lng', '/:lng/courses', '/:lng/courses/:slug', '/:lng/blogs', '/:lng/blogs/:slug', '/:lng/contacts']);
+const isPublicRoute = createRouteMatcher(['/:lng', '/:lng/courses', '/:lng/courses/:slug', '/:lng/blogs', '/:lng/blogs/:slug', '/:lng/contacts', '/en/instructor/settings', '/en/instructor/settings(.*)']);
 
 export default clerkMiddleware(async (authPromise, req: NextRequest) => {
   const pathname = req.nextUrl.pathname
@@ -42,6 +42,7 @@ export default clerkMiddleware(async (authPromise, req: NextRequest) => {
 export const config = {
   matcher: [
     '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    '/(api|trpc)(.*)',
+    '/(api|trpc)(.*)', '/:lng/instructor/settings(.*)',
   ],
 };
+

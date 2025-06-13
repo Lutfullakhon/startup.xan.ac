@@ -3,10 +3,7 @@
 import React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import useTranslate from '@/hooks/use-translate'
-import dynamic from 'next/dynamic'
-
-// Dynamically import ReactStars with SSR disabled
-const ReactStars = dynamic(() => import('react-stars'), { ssr: false })
+import ReactStars from '@/components/react-stars-client'
 
 function ReviewCard() {
 	const t = useTranslate()

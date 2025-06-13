@@ -7,6 +7,7 @@ export interface ChildProps {
 export interface LngParams {
 	params: Promise<{
 		lng: string
+		slug: string
 	}>
 }
 

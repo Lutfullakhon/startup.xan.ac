@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
 			const user = await createUser({
 				clerkId: id,
 				email: email_addresses[0]?.email_address || '',
-				fullName: `${first_name || ''} ${last_name || ''}`.trim(),
+				fullName: `${first_name || ''} ${last_name || ''}`.trim() || email_addresses[0]?.email_address || 'Unnamed User',
 				picture: image_url,
 			})
 
@@ -32,6 +32,7 @@ export async function POST(req: NextRequest) {
 					fullName: `${first_name || ''} ${last_name || ''}`.trim(),
 					picture: image_url,
 				},
+				path: ''
 			})
 
 			return NextResponse.json({ message: 'User updated', user })

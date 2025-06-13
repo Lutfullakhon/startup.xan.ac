@@ -5,7 +5,7 @@ import { Button } from '../ui/button'
 import { Flag } from 'lucide-react'
 import { Avatar } from '../ui/avatar'
 import { AvatarFallback } from '@radix-ui/react-avatar'
-import ReactStars from 'react-stars'
+import ReactStars from '@/components/react-stars-client'
 
 function InsrtuctorReviewCard() {
 	return (
