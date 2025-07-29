@@ -129,6 +129,9 @@
 	width: fit-content;
 	height: fit-content;
 	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 .input-search {
 	background-color: transparent;
@@ -162,4 +165,22 @@
 	background-color: transparent;
 	border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 	transition: all 500ms cubic-bezier(0, 0.11, 0.35, 2);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+	border-radius: 1px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+	@apply bg-background;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+	background: linear-gradient(129deg, #2b6cb0 0%, #2b6cb0 100%);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+	background: linear-gradient(129deg, #2b6cb0 0%, #2b6cb0 100%);
 }

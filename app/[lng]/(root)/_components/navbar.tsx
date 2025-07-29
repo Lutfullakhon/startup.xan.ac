@@ -16,11 +16,13 @@ import useTranslate from '@/hooks/use-translate'
 import Mobile from './mobile'
 import { useParams, usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
+import { useCart } from '@/hooks/use-cart'
 
 function Navbar() {
 	const t = useTranslate()
 	const pathname = usePathname()
 	const { lng } = useParams()
+	const { cartsLength } = useCart()
 
 	return (
 		<div className='fixed inset-0 z-40 h-20 bg-background/70 backdrop-blur-xl'>
@@ -49,8 +51,20 @@ function Navbar() {
 							<GlobalSearch />
 							<LanguageDropdown />
 
-							<Button size={'icon'} variant={'ghost'}>
-								<ShoppingCart />
+							<Button
+								size={'icon'}
+								variant={'ghost'}
+								asChild
+								className='relative'
+							>
+								<Link href={'/shopping/cart'}>
+									<ShoppingCart />
+									{cartsLength() ? (
+										<div className='absolute -right-2 -top-2 flex size-6 items-center justify-center rounded-full bg-destructive'>
+											{cartsLength()}
+										</div>
+									) : null}
+								</Link>
 							</Button>
 						</div>
 						<Mobile />

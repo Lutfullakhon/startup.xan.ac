@@ -10,12 +10,42 @@ import {
 	MonitorPlay,
 	Infinity,
 } from 'lucide-react'
-import React from 'react'
+import React, { useState } from 'react'
 import { GrCertificate } from 'react-icons/gr'
 import { BiCategory } from 'react-icons/bi'
 
+import { useAuth } from '@clerk/nextjs'
+import { useRouter } from 'next/navigation'
+
+import { useCart } from '@/hooks/use-cart'
+
 function Description(course: ICourse) {
+	const [isLoading, setIsLoading] = useState(false)
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const { userId } = useAuth()
 	const t = useTranslate()
+	const router = useRouter()
+	const { addToCart } = useCart()
+
+	const onCart = () => {
+		setIsLoading(true)
+		addToCart(course)
+		router.push('/shopping/cart')
+	}
+
+	// const onPurchase = async () => {
+	// 	setIsLoading(true)
+	// 	const promise = purchaseCourse(course._id, userId!)
+	// 		.then(() => router.push(`/${lng}/dashboard/${course._id}`))
+	// 		.catch(() => setIsLoading(false))
+
+	// 	toast.promise(promise, {
+	// 		loading: t('loading'),
+	// 		success: t('successfully'),
+	// 		error: t('error'),
+	// 	})
+	// }
 
 	return (
 		<div className='rounded-md border bg-secondary/50 p-4 shadow-lg dark:shadow-white/20 lg:sticky lg:top-24 lg:p-6'>
@@ -36,17 +66,21 @@ function Description(course: ICourse) {
 
 			<Button
 				size={'lg'}
-				className=' mt-2 w-full font-bold'
+				className=' relative mt-2 w-full font-bold'
 				variant={'outline'}
-			>
-				{t('addToCart')}
-			</Button>
-			<Button
-				size={'lg'}
-				className=' mt-2 w-full font-bold'
-				variant={'outline'}
+				onClick={onCart}
+				disabled={isLoading}
 			>
 				{t('buyNow')}
+			</Button>
+
+			<Button
+				size={'lg'}
+				className=' relative mt-2 w-full font-bold'
+				variant={'outline'}
+				disabled={isLoading}
+			>
+				{t('addWishlist')}
 			</Button>
 
 			<p className='my-3 text-center text-sm text-muted-foreground'>

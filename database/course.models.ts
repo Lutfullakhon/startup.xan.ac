@@ -16,7 +16,7 @@ const CourseSchema = new Schema(
 		instructor: { type: Schema.Types.ObjectId, ref: 'User' },
 		slug: String,
 		tags: String,
-		// purchases: [{ type: Schema.Types.ObjectId, ref: 'Purchase' }],
+		purchases: [{ type: Schema.Types.ObjectId, ref: 'Purchase' }],
 	},
 	{ timestamps: true }
 )

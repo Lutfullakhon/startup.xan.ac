@@ -105,8 +105,8 @@ function AllCourses({ result }: Props) {
 
 			{courses.length === 0 && (
 				<NoResult
-					title="Ko'rsatish uchun hech qanday kurslar yo'q"
-					description="O'zingizga mos kurslarni toping! 🚀 Xozirda sizning so'rovingizga to'g'ri keladigon kurslar bizda mavjud emass. Tez kunda qo'shiladi! 💡"
+					title={t('noReviews')}
+					description={t('noReviewsDescription')}
 				/>
 			)}
 

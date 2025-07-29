@@ -1,11 +1,18 @@
-'use client'
-
-import React from 'react'
+import { Separator } from '@/components/ui/separator'
 import Header from '../_components/header'
-import { Separator } from '@radix-ui/react-dropdown-menu'
-import InsrtuctorReviewCard from '@/components/cards/insrtuctor-review.card'
+import InstructorReviewCard from '@/components/cards/insrtuctor-review.card'
+import { auth } from '@clerk/nextjs/server'
+import { searchParamsProps } from '@/app.types'
+import { getReviews } from '@/actions/review.action'
+import Pagination from '@/components/shared/pagination'
 
-function Page() {
+async function Page({ searchParams }: searchParamsProps) {
+	const { userId } = await auth()
+
+	const page = searchParams.page ? +searchParams.page : 1
+
+	const result = await getReviews({ clerkId: userId!, page, pageSize: 6 })
+
 	return (
 		<>
 			<Header
@@ -14,13 +21,20 @@ function Page() {
 			/>
 
 			<div className='mt-4 rounded-md bg-background p-4'>
-				<h3 className='font-space-grotesk text-lg font-medium'>All reviews</h3>
+				<h3 className='font-space-grotesk text-lg font-medium'>All Reviews</h3>
 				<Separator className='my-3' />
 
 				<div className='flex flex-col space-y-3'>
-					<InsrtuctorReviewCard />
-					<InsrtuctorReviewCard />
-					<InsrtuctorReviewCard />
+					{result.reviews.map(review => (
+						<InstructorReviewCard
+							key={review._id}
+							review={JSON.parse(JSON.stringify(review))}
+						/>
+					))}
+				</div>
+
+				<div className='mt-6'>
+					<Pagination isNext={result.isNext} pageNumber={page} />
 				</div>
 			</div>
 		</>

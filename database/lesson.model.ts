@@ -13,6 +13,7 @@ const LessonSchema = new Schema({
 	},
 	section: { type: Schema.Types.ObjectId, ref: 'Section' },
 	free: {type: Boolean, default: false},
+	userProgress: [{ type: Schema.Types.ObjectId, ref: 'UserProgress' }],
 })
 
 const Lesson = models.Lesson || model('Lesson', LessonSchema)

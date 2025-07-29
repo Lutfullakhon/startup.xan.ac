@@ -10,8 +10,6 @@ async function Page() {
 	const coursesJSON = await getFeaturedCourses()
 	const courses = JSON.parse(JSON.stringify(coursesJSON))
 
-	console.log(courses)
-
 	return (
 		<>
 			<Hero />

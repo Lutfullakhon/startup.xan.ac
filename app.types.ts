@@ -18,6 +18,9 @@ export interface ICourse {
 	totalLessons: number
 	totalSections: number
 	totalDuration: string
+	rating: number
+	reviewCount: number
+	purchasedStudents: number
 }
 
 export interface ISection {
@@ -40,6 +43,13 @@ export interface ILesson {
 		minutes: number
 		seconds: number
 	}
+	userProgress: IUserProgress[]
+}
+
+export interface IUserProgress {
+	userId: string
+	lessonId: string
+	isCompleted: string
 }
 
 export interface IUser {
@@ -60,4 +70,14 @@ export interface IUser {
 
 export interface searchParamsProps {
 	searchParams: {[key: string]: string | undefined}
+}
+
+export interface IReview {
+	data: string
+	rating: number
+	user: IUser
+	createdAt: string
+	_id: string
+	course: ICourse
+	isFlag: boolean
 }
