@@ -46,9 +46,16 @@ function CheckoutElement({ cards }: Props) {
 	const onSubmit = async ({ code }: z.infer<typeof couponSchema>) => {
 		setLoading(true)
 		try {
-			const res = await applyCoupon(code)
-			if (res.valid) {
-				setCoupon(res.percent_off)
+			const res = await fetch('/api/apply-coupon', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ code }),
+			})
+			const data = await res.json()
+			if (res.ok && data.valid) {
+				setCoupon(data.percent_off)
+			} else {
+				throw new Error(data.error || 'Invalid coupon')
 			}
 		} catch (error) {
 			const result = error as Error
