@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { getStudentCourse } from '@/actions/course.action'
 import { getCustomerCards } from '@/actions/customer.action'
 import CreditCard from '@/components/cards/credit.card'
