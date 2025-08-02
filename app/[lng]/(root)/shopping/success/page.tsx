@@ -1,5 +1,4 @@
 import { retrievePayment } from '@/actions/payment.action'
-import { SearchParamsProps } from '@/app.types'
 import TopBar from '@/components/shared/top-bar'
 import { Button } from '@/components/ui/button'
 import { translation } from '@/i18n/server'
@@ -8,12 +7,23 @@ import { GaugeCircle } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-interface Props extends SearchParamsProps {
-	params: { lng: string }
+export type Props = {
+	params: Promise<{ lng: string }>
+	searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
 }
+
 async function Page({ params, searchParams }: Props) {
-	const payment = await retrievePayment(searchParams.pi!)
-	const { t } = await translation(params.lng)
+	const resolvedParams = await params
+	const resolvedSearchParams = searchParams ? await searchParams : {}
+
+	const paymentIntentId = Array.isArray(resolvedSearchParams.pi)
+		? resolvedSearchParams.pi[0]
+		: resolvedSearchParams.pi
+
+	if (!paymentIntentId) throw new Error('Missing payment intent ID')
+
+	const payment = await retrievePayment(paymentIntentId)
+	const { t } = await translation(resolvedParams.lng)
 
 	return (
 		<>
