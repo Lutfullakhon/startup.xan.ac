@@ -17,7 +17,6 @@ import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
-import { applyCoupon } from '@/actions/payment.action'
 import FillLoading from '@/components/shared/fill-loading'
 import { X } from 'lucide-react'
 
