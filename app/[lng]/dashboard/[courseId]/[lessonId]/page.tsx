@@ -4,12 +4,13 @@ import parse from 'html-react-parser'
 import VideoLesson from './_components/video-lesson'
 import MobileCurriculum from './_components/mobile-curriculum'
 
-interface Props {
-	params: { lessonId: string; courseId: string; lng: string }
+export type Props = {
+	params: Promise<{ lessonId: string; courseId: string; lng: string }>
+	searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
 async function Page({ params }: Props) {
-	const { courseId, lessonId, lng } = params
+	const { lessonId, courseId, lng } = await params
 
 	const [{ t }, lesson] = await Promise.all([
 		translation(lng),
