@@ -6,7 +6,6 @@ import Image from 'next/image'
 import ShareBtns from './_components/share-btns'
 import parse from 'html-react-parser'
 import { Separator } from '@/components/ui/separator'
-import { Props1 } from '@/types'
 
 // export async function generateMetadata(
 // 	{ params }: { params: { slug: string } },
@@ -24,7 +23,13 @@ import { Props1 } from '@/types'
 // 		},
 // 	}
 // }
-async function Page({ params }: Props1) {
+
+export type Props = {
+	params: Promise<{ id: string; slug: string }>
+	searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
+}
+
+async function Page({ params }: Props) {
 	const { slug } = await params
 	const blog = await getDetailedBlog(slug)
 

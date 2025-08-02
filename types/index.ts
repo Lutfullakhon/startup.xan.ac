@@ -61,8 +61,3 @@ export interface IBlog {
 	slug: string
 }
 
-export type Props1 = {
-	params: Promise<{
-		slug: string
-	}>
-}
