@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import TopBar from '@/components/shared/top-bar'
 import { translation } from '@/i18n/server'
 import { LngParams } from '@/types'
