@@ -4,9 +4,11 @@ import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 
 interface Props {
-	params: { courseId: string; lng: string }
+	params: Promise<{ courseId: string; lng: string }>
 }
-async function Page({ params: { courseId, lng } }: Props) {
+async function Page({ params }: Props) {
+	const { courseId, lng } = await params
+
 	const { userId } = await auth()
 	const isPurchase = await getIsPurchase(userId!, courseId)
 
