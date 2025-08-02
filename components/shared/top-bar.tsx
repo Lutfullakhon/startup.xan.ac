@@ -3,6 +3,7 @@
 import useTranslate from '@/hooks/use-translate'
 import { Dot } from 'lucide-react'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import React from 'react'
 
 interface Props {
@@ -12,6 +13,7 @@ interface Props {
 }
 
 function TopBar({ label, extra, description }: Props) {
+	const searchParams = useSearchParams()
 	const t = useTranslate()
 
 	return (
