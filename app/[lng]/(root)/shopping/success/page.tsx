@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { retrievePayment } from '@/actions/payment.action'
 import TopBar from '@/components/shared/top-bar'
 import { Button } from '@/components/ui/button'
