@@ -39,7 +39,6 @@ function Overview(course: ICourse) {
 				setSections(sections)
 				setReviews(reviews)
 				setIsLoading(false)
-				// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			} catch (error) {
 				setIsLoading(false)
 			}

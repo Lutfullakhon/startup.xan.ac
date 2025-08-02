@@ -1,9 +1,9 @@
 import TopBar from '@/components/shared/top-bar'
 import AllCourses from './_components/all-courses'
 import { getAllCourses } from '@/actions/course.action'
-import { searchParamsProps } from '@/app.types'
+import { SearchParamsProps } from '@/app.types'
 
-async function Page({ searchParams }: searchParamsProps) {
+async function Page({ searchParams }: SearchParamsProps) {
 	const resultJSON = await getAllCourses({
 		searchQuery: searchParams.q,
 		filter: searchParams.filter,

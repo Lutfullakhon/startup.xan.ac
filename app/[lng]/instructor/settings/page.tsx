@@ -1,5 +1,5 @@
 import { Separator } from '@/components/ui/separator'
-import Header from '../_components/header'
+import Header from '../../../../components/shared/header'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import Profile from './_components/profile'
 import Account from './_components/account'

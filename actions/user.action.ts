@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+ 
 
 'use server'
 
@@ -10,6 +10,8 @@ import User from '@/database/user.model'
 // import Course from '@/database/course.model'
 import { cache } from 'react'
 import { revalidatePath } from 'next/cache'
+import Review from '@/database/review.model'
+import Course from '@/database/course.models'
 
 export const createUser = async (data: ICreateUser) => {
 	try {
@@ -73,21 +75,21 @@ export const getUserById = cache(async (clerkId: string) => {
 // 	}
 // }
 
-// export const getUserReviews = async (clerkId: string) => {
-// 	try {
-// 		await connectToDatabase()
-// 		const user = await User.findOne({ clerkId }).select('_id')
+export const getUserReviews = async (clerkId: string) => {
+	try {
+		await connectToDatabase()
+		const user = await User.findOne({ clerkId }).select('_id')
 
-// 		const reviews = await Review.find({ user: user._id })
-// 			.sort({ createdAt: -1 })
-// 			.populate({ path: 'user', model: User, select: 'fullName picture' })
-// 			.populate({ path: 'course', model: Course, select: 'title' })
+		const reviews = await Review.find({ user: user._id })
+			.sort({ createdAt: -1 })
+			.populate({ path: 'user', model: User, select: 'fullName picture' })
+			.populate({ path: 'course', model: Course, select: 'title' })
 
-// 		return reviews
-// 	} catch (error) {
-// 		throw new Error('Error getting user reviews')
-// 	}
-// }
+		return reviews
+	} catch (error) {
+		throw new Error('Error getting user reviews')
+	}
+}
 
 // export const getAdminInstructors = async (params: GetPaginationParams) => {
 // 	try {

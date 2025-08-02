@@ -116,7 +116,7 @@ function VideoLesson({ lesson }: Props) {
 				playerInstance.current = null
 			}
 		}
-	}, [vimeoId]) // Removed onEnd from dependencies
+	}, [vimeoId, onEnd]) // Removed onEnd from dependencies
 
 	return (
 		<div className='flex flex-col gap-4'>

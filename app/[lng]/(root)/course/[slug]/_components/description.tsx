@@ -18,11 +18,16 @@ import { useAuth } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 
 import { useCart } from '@/hooks/use-cart'
-
-function Description(course: ICourse) {
+import Link from 'next/link'
+import { toast } from 'sonner'
+import { addWishlistCourse } from '@/actions/course.action'
+interface Props {
+	course: ICourse
+	isPurchase: boolean
+}
+function Description({ course, isPurchase }: Props) {
 	const [isLoading, setIsLoading] = useState(false)
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { userId } = useAuth()
 	const t = useTranslate()
 	const router = useRouter()
@@ -34,18 +39,20 @@ function Description(course: ICourse) {
 		router.push('/shopping/cart')
 	}
 
-	// const onPurchase = async () => {
-	// 	setIsLoading(true)
-	// 	const promise = purchaseCourse(course._id, userId!)
-	// 		.then(() => router.push(`/${lng}/dashboard/${course._id}`))
-	// 		.catch(() => setIsLoading(false))
+	const onAdd = () => {
+		if (!userId) return toast.error('Please Sign Up!')
+		setIsLoading(true)
 
-	// 	toast.promise(promise, {
-	// 		loading: t('loading'),
-	// 		success: t('successfully'),
-	// 		error: t('error'),
-	// 	})
-	// }
+		const promise = addWishlistCourse(course._id, userId!).finally(() =>
+			setIsLoading(false)
+		)
+
+		toast.promise(promise, {
+			loading: t('loading'),
+			success: t('successfully'),
+			error: `${t('alreadyAdded')} Whishlist!`,
+		})
+	}
 
 	return (
 		<div className='rounded-md border bg-secondary/50 p-4 shadow-lg dark:shadow-white/20 lg:sticky lg:top-24 lg:p-6'>
@@ -64,21 +71,27 @@ function Description(course: ICourse) {
 				</div>
 			</div>
 
-			<Button
-				size={'lg'}
-				className=' relative mt-2 w-full font-bold'
-				variant={'outline'}
-				onClick={onCart}
-				disabled={isLoading}
-			>
-				{t('buyNow')}
-			</Button>
+			{isPurchase ? (
+				<Button size={'lg'} className='relative mt-2 w-full font-bold' asChild>
+					<Link href={`/dashboard/${course._id}`}>{t('toLesson')}</Link>
+				</Button>
+			) : (
+				<Button
+					size={'lg'}
+					className='relative mt-2 w-full font-bold'
+					onClick={onCart}
+					disabled={isLoading}
+				>
+					{t('buyNow')}
+				</Button>
+			)}
 
 			<Button
 				size={'lg'}
 				className=' relative mt-2 w-full font-bold'
 				variant={'outline'}
 				disabled={isLoading}
+				onClick={onAdd}
 			>
 				{t('addWishlist')}
 			</Button>

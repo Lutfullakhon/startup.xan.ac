@@ -1,12 +1,12 @@
 import { Separator } from '@/components/ui/separator'
-import Header from '../_components/header'
+import Header from '../../../../components/shared/header'
 import InstructorReviewCard from '@/components/cards/insrtuctor-review.card'
 import { auth } from '@clerk/nextjs/server'
-import { searchParamsProps } from '@/app.types'
+import { SearchParamsProps } from '@/app.types'
 import { getReviews } from '@/actions/review.action'
 import Pagination from '@/components/shared/pagination'
 
-async function Page({ searchParams }: searchParamsProps) {
+async function Page({ searchParams }: SearchParamsProps) {
 	const { userId } = await auth()
 
 	const page = searchParams.page ? +searchParams.page : 1

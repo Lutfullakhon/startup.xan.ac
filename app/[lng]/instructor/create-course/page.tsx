@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from '../_components/header'
+import Header from '../../../../components/shared/header'
 import { Separator } from '@radix-ui/react-dropdown-menu'
 import CourseFieldsForm from '@/components/forms/course-fields.form'
 

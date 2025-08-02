@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+ 
  'use server'
 
 import { connectToDatabase } from '@/lib/mongoose'
@@ -193,45 +193,55 @@ export const getNextLesson = async (lessonId: string, courseId: string) => {
 }
 
 export const getLastLesson = async (clerkId: string, courseId: string) => {
-	try {
-		await connectToDatabase()
+  try {
+    await connectToDatabase();
 
-		const sections = await Section.find({ course: courseId })
-			.select('lessons')
-			.sort({ position: 1 })
-			.populate({
-				path: 'lessons',
-				model: Lesson,
-				select: 'userProgress',
-				options: { sort: { position: 1 } },
-			})
+    const sections = await Section.find({ course: courseId })
+      .select('lessons')
+      .sort({ position: 1 })
+      .populate({
+        path: 'lessons',
+        model: Lesson,
+        select: 'userProgress',
+        options: { sort: { position: 1 } },
+      });
 
-		const lessons: ILesson[] = sections.map(section => section.lessons).flat()
+    if (!sections.length || !sections[0].lessons.length) {
+      // Fallback: return a fake/default lesson and section ID
+      // You can also return empty strings if that's preferred
+      return {
+        sectionId: '000000000000000000000000',
+        lessonId: '000000000000000000000000',
+      };
+    }
 
-		const userProgress = await UserProgress.find({
-			userId: clerkId,
-			lessonId: { $in: lessons.map(lesson => lesson._id) },
-			isCompleted: true,
-		}).sort({ createdAt: -1 })
+    const lessons: ILesson[] = sections.map((section) => section.lessons).flat();
 
-		const lastLesson = userProgress[userProgress.length - 1]
+    const userProgress = await UserProgress.find({
+      userId: clerkId,
+      lessonId: { $in: lessons.map((lesson) => lesson._id) },
+      isCompleted: true,
+    }).sort({ createdAt: -1 });
 
-		if (!lastLesson) {
-			return {
-				sectionId: sections[0]._id.toString(),
-				lessonId: sections[0].lessons[0]._id.toString(),
-			}
-		}
+    const lastLesson = userProgress[userProgress.length - 1];
 
-		const section = await Section.findOne({ lessons: lastLesson.lessonId })
+    if (!lastLesson) {
+      // Fallback to first lesson
+      return {
+        sectionId: sections[0]._id.toString(),
+        lessonId: sections[0].lessons[0]._id.toString(),
+      };
+    }
 
-		return {
-			lessonId: lastLesson.lessonId.toString(),
-			sectionId: section._id.toString(),
-		}
-	} catch (error) {
-		throw new Error('Something went wrong!')
-	}
-}
+    const section = await Section.findOne({ lessons: lastLesson.lessonId });
 
-
+    return {
+      lessonId: lastLesson.lessonId.toString(),
+      sectionId: section?._id.toString() || sections[0]._id.toString(),
+    };
+  } catch (error) {
+    throw new Error(
+      error instanceof Error ? error.message : 'Something went wrong!'
+    );
+  }
+};

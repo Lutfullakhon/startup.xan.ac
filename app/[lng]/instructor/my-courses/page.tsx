@@ -1,13 +1,13 @@
 import React from 'react'
-import Header from '../_components/header'
+import Header from '../../../../components/shared/header'
 
 import InstructorCourseCard from '@/components/cards/instructor-course.card'
 import { getCourses } from '@/actions/course.action'
 import { auth } from '@clerk/nextjs/server'
-import { searchParamsProps } from '@/app.types'
+import { SearchParamsProps } from '@/app.types'
 import Pagination from '@/components/shared/pagination'
 
-async function Page({ searchParams }: searchParamsProps) {
+async function Page({ searchParams }: SearchParamsProps) {
 	const { userId } = await auth()
 	const page = searchParams.page ? +searchParams.page : 1
 	const result = await getCourses({ clerkId: userId!, page })

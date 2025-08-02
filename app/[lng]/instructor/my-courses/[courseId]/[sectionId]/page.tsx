@@ -1,5 +1,5 @@
 import { Separator } from '@/components/ui/separator'
-import Header from '../../../_components/header'
+import Header from '../../../../../../components/shared/header'
 import { getSectionById } from '@/actions/section.action'
 import { Button } from '@/components/ui/button'
 import { ChevronLeftCircle, Settings, Settings2 } from 'lucide-react'

@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from '../_components/header'
+import Header from '../../../../components/shared/header'
 import StatisticsCard from '@/components/cards/statistics.card'
 import { MessageSquare, MonitorPlay } from 'lucide-react'
 import { PiStudent } from 'react-icons/pi'

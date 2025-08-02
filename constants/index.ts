@@ -1,4 +1,4 @@
-import { Contact, FileCode, GaugeCircle, Home, ListVideo, MessageSquareMore, MonitorPlay, Rss, Settings2 } from 'lucide-react'
+import { Contact, CreditCard, FileCode, GaugeCircle, Home, ListVideo, MessageSquareMore, MonitorPlay, Rss, Settings2 } from 'lucide-react'
 import {
 	DiCisco,
 	DiCreativecommonsBadge,
@@ -257,3 +257,12 @@ export const editorConfig = {
 	skin: 'oxide-dark',
 	content_css: 'dark',
 }
+
+export const profileNavLinks = [
+	{ label: 'dashboard', route: '/profile', icon: GaugeCircle },
+	{ label: 'myCourses', route: '/profile/my-courses', icon: MonitorPlay },
+	{ label: 'wishlist', route: '/profile/wishlist', icon: ListVideo },
+	{ label: 'creditCards', route: '/profile/credit-cards', icon: CreditCard },
+	{ label: 'reviews', route: '/profile/reviews', icon: MessageSquareMore },
+	{ label: 'settings', route: '/profile/settings', icon: Settings2 },
+]

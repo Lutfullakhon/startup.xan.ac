@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { getCourseReviews, getReviewsPercentage } from '@/actions/review.action'
 import { ICourse, IReview } from '@/app.types'
 import ReviewCard from '@/components/cards/review.card'

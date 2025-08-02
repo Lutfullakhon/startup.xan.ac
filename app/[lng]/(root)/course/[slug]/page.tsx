@@ -14,15 +14,23 @@ import {
 import CourseCard from '@/components/cards/course.card'
 import { LngParams } from '@/types'
 import { translation } from '@/i18n/server'
-import { getDetailedCourse, getFeaturedCourses } from '@/actions/course.action'
+import {
+	getDetailedCourse,
+	getFeaturedCourses,
+	getIsPurchase,
+} from '@/actions/course.action'
 import { ICourse } from '@/app.types'
+import { useAuth } from '@clerk/nextjs'
+import { auth } from '@clerk/nextjs/server'
 
 async function Page({ params }: LngParams) {
 	const { lng, slug } = await params
 	const { t } = await translation(lng)
+	const { userId } = await auth()
 
 	const courseJSON = await getDetailedCourse(slug)
 	const coursesJSON = await getFeaturedCourses()
+	const isPurchase = await getIsPurchase(userId!, slug)
 
 	const course = JSON.parse(JSON.stringify(courseJSON))
 	const courses = JSON.parse(JSON.stringify(coursesJSON))
@@ -38,7 +46,7 @@ async function Page({ params }: LngParams) {
 					</div>
 
 					<div className='col-span-1 max-lg:col-span-3'>
-						<Description {...course} />
+						<Description course={course} isPurchase={isPurchase} />
 					</div>
 				</div>
 
