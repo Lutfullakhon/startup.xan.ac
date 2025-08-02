@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { getCustomerCards, getPaymentIntents } from '@/actions/customer.action'
 import { IPayment } from '@/app.types'
 import Header from '@/components/shared/header'
