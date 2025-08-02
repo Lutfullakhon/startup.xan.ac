@@ -13,8 +13,12 @@ import Price from './_components/price'
 import PreviewImage from './_components/preview-image'
 import { getSections } from '@/actions/section.action'
 
-async function Page({ params }: { params: { courseId: string } }) {
-	const { courseId } = params
+interface Props {
+	params: Promise<{ courseId: string; lng: string }>
+}
+
+async function Page({ params }: Props) {
+	const { courseId } = await params
 
 	const courseJSON = await getCourseById(courseId)
 	const sectionsJSON = await getSections(courseId)

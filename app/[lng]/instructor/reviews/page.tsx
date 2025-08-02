@@ -2,14 +2,18 @@ import { Separator } from '@/components/ui/separator'
 import Header from '../../../../components/shared/header'
 import InstructorReviewCard from '@/components/cards/insrtuctor-review.card'
 import { auth } from '@clerk/nextjs/server'
-import { SearchParamsProps } from '@/app.types'
 import { getReviews } from '@/actions/review.action'
 import Pagination from '@/components/shared/pagination'
 
-async function Page({ searchParams }: SearchParamsProps) {
-	const { userId } = await auth()
+export type Props = {
+	params: Promise<{ lessonId: string; courseId: string; lng: string }>
+	searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
+}
 
-	const page = searchParams.page ? +searchParams.page : 1
+async function Page({ searchParams }: Props) {
+	const resolvedSearchParams = await searchParams
+	const { userId } = await auth()
+	const page = resolvedSearchParams?.page ? +resolvedSearchParams.page : 1
 
 	const result = await getReviews({ clerkId: userId!, page, pageSize: 6 })
 
