@@ -9,10 +9,11 @@ import { Separator } from '@/components/ui/separator'
 import { Metadata, ResolvingMetadata } from 'next'
 
 export async function generateMetadata(
-	{ params }: { params: { slug: string } },
-	parent: ResolvingMetadata
-): Promise<Metadata> {
-	const blog = await getDetailedBlog(params.slug!)
+	params: Promise<{
+		slug: string
+	}>
+) {
+	const blog = await getDetailedBlog((await params).slug!)
 
 	return {
 		title: blog.title,
