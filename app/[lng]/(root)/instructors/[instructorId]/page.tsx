@@ -8,7 +8,6 @@ import { PiStudentBold } from 'react-icons/pi'
 import SocialMedia from './_components/social-media'
 import NoResult from '@/components/shared/no-result'
 import CourseCard from '@/components/cards/course.card'
-import Props from '../page'
 import { Metadata, ResolvingMetadata } from 'next'
 
 export async function generateMetadata({ params }: Props) {
