@@ -1,4 +1,4 @@
-import { Contact, CreditCard, FileCode, GaugeCircle, Home, ListVideo, MessageSquareMore, MonitorPlay, Rss, Settings2 } from 'lucide-react'
+import { Bell, Contact, CreditCard, FileCode, GaugeCircle, Home, ListVideo, MessageSquareMore, MonitorPlay, Rss, Settings2, User } from 'lucide-react'
 import {
 	DiCisco,
 	DiCreativecommonsBadge,
@@ -264,5 +264,14 @@ export const profileNavLinks = [
 	{ label: 'wishlist', route: '/profile/wishlist', icon: ListVideo },
 	{ label: 'creditCards', route: '/profile/credit-cards', icon: CreditCard },
 	{ label: 'reviews', route: '/profile/reviews', icon: MessageSquareMore },
+	{ label: 'notification', route: '/admin/notifications', icon: Bell },
 	{ label: 'settings', route: '/profile/settings', icon: Settings2 },
+]
+
+export const adminNavLinks = [
+	{ label: 'Dashboard', route: '/admin', icon: GaugeCircle },
+	{ label: 'All courses', route: '/admin/all-courses', icon: MonitorPlay },
+	{ label: 'Instructors', route: '/admin/instructors', icon: User },
+	{ label: 'Reviews', route: '/admin/reviews', icon: MessageSquareMore },
+	{ label: 'Notifications', route: '/admin/notifications', icon: Bell },
 ]

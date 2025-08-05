@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+ 
 'use server'
 
 import { IReview } from '@/app.types'
@@ -7,7 +7,7 @@ import Review from '@/database/review.model'
 import User from '@/database/user.model'
 import { connectToDatabase } from '@/lib/mongoose'
 import { revalidatePath } from 'next/cache'
-import { GetReviewParams } from './types'
+import { GetPaginationParams, GetReviewParams } from './types'
 
 export const createReview = async (
 	data: Partial<IReview>,
@@ -60,7 +60,7 @@ export const getReviews = async (params: GetReviewParams) => {
 
 		const reviews = await Review.find({ course: { $in: courses } })
 			.sort({ createdAt: -1 })
-			.populate({ path: 'user', model: User, select: 'fullName picture' })
+			.populate({ path: 'user', model: User, select: 'fullName picture clerkId' })
 			.populate({ path: 'course', model: Course, select: 'title' })
 			.skip(skipAmount)
 			.limit(pageSize)
@@ -135,5 +135,28 @@ export const getReviewsPercentage = async (id: string) => {
 		return percentages
 	} catch (error) {
 		throw new Error('Error getting reviews percentage')
+	}
+}
+
+export const getAdminReviews = async (params: GetPaginationParams) => {
+	try {
+		await connectToDatabase()
+		const { page = 1, pageSize = 3 } = params
+
+		const skipAmount = (page - 1) * pageSize
+
+		const reviews = await Review.find()
+			.sort({ createdAt: -1 })
+			.skip(skipAmount)
+			.limit(pageSize)
+			.populate({ path: 'user', select: 'fullName picture clerkId', model: User })
+			.populate({ path: 'course', select: 'title', model: Course })
+
+		const totalReviews = await Review.countDocuments()
+		const isNext = totalReviews > skipAmount + reviews.length
+
+		return { reviews, isNext, totalReviews }
+	} catch (error) {
+		throw new Error('Error getting admin reviews')
 	}
 }

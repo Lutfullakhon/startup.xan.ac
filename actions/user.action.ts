@@ -3,7 +3,7 @@
 'use server'
 
 import { connectToDatabase } from '@/lib/mongoose'
-import {  ICreateUser, IUpdateUser } from './types'
+import {  GetPaginationParams, ICreateUser, IUpdateUser } from './types'
 import User from '@/database/user.model'
 
 // import Review from '@/database/review.model'
@@ -12,6 +12,9 @@ import { cache } from 'react'
 import { revalidatePath } from 'next/cache'
 import Review from '@/database/review.model'
 import Course from '@/database/course.models'
+
+import { Types } from 'mongoose'
+import { IUser } from '@/app.types'
 
 export const createUser = async (data: ICreateUser) => {
 	try {
@@ -38,42 +41,50 @@ export const createUser = async (data: ICreateUser) => {
 }
 
 export const updateUser = async (data: IUpdateUser) => {
+  try {
+    await connectToDatabase();
+    const { clerkId, updatedData, path } = data;
+
+    const updatedUser = await User.findOneAndUpdate({ clerkId }, updatedData, {
+      new: true,
+    });
+
+    // ✅ Convert Mongoose document to plain JS object
+    const plainUser = updatedUser?.toObject();
+
+    if (path) {
+      revalidatePath(path);
+    }
+
+    return plainUser; // Must be a plain object
+  } catch (error) {
+    console.error('Update user error:', error);
+    throw new Error('Error updating user. Please try again.');
+  }
+};
+
+export const getUserById = cache(async (clerkId: string): Promise<IUser | null> => {
+  try {
+    await connectToDatabase();
+    const user = await User.findOne({ clerkId }).lean();
+    return user as IUser | null;
+  } catch (error) {
+    throw new Error('Error fetching user. Please try again.');
+  }
+});
+
+export const getUser = async (clerkId: string) => {
 	try {
 		await connectToDatabase()
-		const { clerkId, updatedData, path} = data
-		const updateduser = await User.findOneAndUpdate({ clerkId }, updatedData,)
-
-		if(path) {
-			return  revalidatePath(path)
-		}
-		
-		return updateduser
-	} catch (error) {
-		throw new Error('Error updating user. Please try again.')
-	}
-}
-
-export const getUserById = cache(async (clerkId: string) => {
-	try {
-		await connectToDatabase()
-		return await User.findOne({ clerkId })
+		const user = await User.findOne({ clerkId }).select(
+			'fullName picture clerkId email role isAdmin'
+		)
+		if (!user) return 'notFound'
+		return JSON.parse(JSON.stringify(user))
 	} catch (error) {
 		throw new Error('Error fetching user. Please try again.')
 	}
-})
-
-// export const getUser = async (clerkId: string) => {
-// 	try {
-// 		await connectToDatabase()
-// 		const user = await User.findOne({ clerkId }).select(
-// 			'fullName picture clerkId email role isAdmin'
-// 		)
-// 		if (!user) return 'notFound'
-// 		return JSON.parse(JSON.stringify(user))
-// 	} catch (error) {
-// 		throw new Error('Error fetching user. Please try again.')
-// 	}
-// }
+}
 
 export const getUserReviews = async (clerkId: string) => {
 	try {
@@ -91,44 +102,47 @@ export const getUserReviews = async (clerkId: string) => {
 	}
 }
 
-// export const getAdminInstructors = async (params: GetPaginationParams) => {
-// 	try {
-// 		await connectToDatabase()
-// 		const { page = 1, pageSize = 3 } = params
 
-// 		const skipAmount = (page - 1) * pageSize
+export const getAdminInstructors = async (params: GetPaginationParams) => {
+	try {
+		await connectToDatabase()
+		const { page = 1, pageSize = 3 } = params
 
-// 		const instructors = await User.find({ role: 'instructor' })
-// 			.skip(skipAmount)
-// 			.limit(pageSize)
-// 			.sort({ createdAt: -1 })
+		const skipAmount = (page - 1) * pageSize
 
-// 		const totalInstructors = await User.countDocuments({ role: 'instructor' })
-// 		const isNext = totalInstructors > skipAmount + instructors.length
+		const instructors = await User.find({ role: 'instructor' })
+			.skip(skipAmount)
+			.limit(pageSize)
+			.sort({ createdAt: -1 })
 
-// 		return { instructors, isNext, totalInstructors }
-// 	} catch (error) {
-// 		throw new Error('Error getting instructors')
-// 	}
-// }
+		const totalInstructors = await User.countDocuments({ role: 'instructor' })
+		const isNext = totalInstructors > skipAmount + instructors.length
 
-// export const getInstructors = async () => {
-// 	try {
-// 		await connectToDatabase()
-// 		return await User.find({ approvedInstructor: true }).select(
-// 			'isAdmin role email website youtube github job clerkId'
-// 		)
-// 	} catch (error) {
-// 		throw new Error('Error getting instructors')
-// 	}
-// }
+		return { instructors, isNext, totalInstructors }
+	} catch (error) {
+		throw new Error('Error getting instructors')
+	}
+}
 
-// export const getRole = async (clerkId: string) => {
-// 	try {
-// 		await connectToDatabase()
-// 		const user = await User.findOne({ clerkId }).select('role isAdmin')
-// 		return user
-// 	} catch (error) {
-// 		throw new Error('Error getting role')
-// 	}
-// }
+
+export const getInstructors = async () => {
+	try {
+		await connectToDatabase()
+		return await User.find({ approvedInstructor: true })
+			.select('isAdmin role email website youtube github job clerkId')
+			.lean() // ✅ fixes the issue
+	} catch (error) {
+		throw new Error('Error getting instructors')
+	}
+}
+
+
+export const getRole = async (clerkId: string) => {
+	try {
+		await connectToDatabase()
+		const user = await User.findOne({ clerkId }).select('role isAdmin')
+		return user
+	} catch (error) {
+		throw new Error('Error getting role')
+	}
+}

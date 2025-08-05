@@ -7,6 +7,12 @@ import CheckoutElement from './_components/checkout-elements'
 
 import { getCustomerCards } from '@/actions/customer.action'
 import { auth } from '@clerk/nextjs/server'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+	title: 'Praktikum | Checkout',
+	description: 'Kurslarni sotib olish sahifasi',
+}
 
 async function Page({ params }: LngParams) {
 	const { userId } = await auth()

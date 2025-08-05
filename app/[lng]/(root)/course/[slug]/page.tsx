@@ -20,8 +20,28 @@ import {
 	getIsPurchase,
 } from '@/actions/course.action'
 import { ICourse } from '@/app.types'
-import { useAuth } from '@clerk/nextjs'
 import { auth } from '@clerk/nextjs/server'
+import { Metadata, ResolvingMetadata } from 'next'
+
+export async function generateMetadata(
+	resolvedParams: { params: Promise<{ slug: string }> },
+	parent: ResolvingMetadata
+): Promise<Metadata> {
+	const { slug } = await resolvedParams.params
+
+	const course = await getDetailedCourse(slug)
+
+	return {
+		title: course.title,
+		description: course.description,
+		openGraph: {
+			images: course.previewImage,
+			title: course.title,
+			description: course.description,
+		},
+		keywords: course.tags,
+	}
+}
 
 async function Page({ params }: LngParams) {
 	const { lng, slug } = await params
@@ -30,7 +50,11 @@ async function Page({ params }: LngParams) {
 
 	const courseJSON = await getDetailedCourse(slug)
 	const coursesJSON = await getFeaturedCourses()
-	const isPurchase = await getIsPurchase(userId!, slug)
+	let isPurchase
+
+	if (userId) {
+		isPurchase = await getIsPurchase(userId!, slug)
+	}
 
 	const course = JSON.parse(JSON.stringify(courseJSON))
 	const courses = JSON.parse(JSON.stringify(coursesJSON))
@@ -46,7 +70,7 @@ async function Page({ params }: LngParams) {
 					</div>
 
 					<div className='col-span-1 max-lg:col-span-3'>
-						<Description course={course} isPurchase={isPurchase} />
+						<Description course={course} isPurchase={!!isPurchase} />
 					</div>
 				</div>
 

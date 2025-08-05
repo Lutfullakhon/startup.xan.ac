@@ -22,9 +22,27 @@ const spaceGrotesk = SpaceGrotesk({
 })
 
 export const metadata: Metadata = {
+	metadataBase: new URL('https://startup.xan.ac'),
 	title: 'XAN',
-	description: 'Startup Next.js project',
+	description:
+		"Xan.ac Next.js dasturlash kurslari, amaliyotlar, startup loyihalar va asosiysi sifatli ta'limdir.",
+	authors: [{ name: 'Lutfullaxon Anvarov', url: 'https://startup.xan.ac' }],
 	icons: { icon: '/logo.svg' },
+	openGraph: {
+		title: 'Sammi praktikum | Dasturlash kurslari',
+		description:
+			"Xan Praktikum Next.js dasturlash kurslari, amaliyotlar, startup loyihalar va asosiysi sifatli ta'limdir.",
+		type: 'website',
+		url: 'https://startup.xan.ac',
+		locale: 'uz_UZ',
+		images:
+			'https://res.cloudinary.com/dyqdtrwhj/image/upload/v1749477572/tcqxoppggln6jroorygv.webp',
+		countryName: 'Uzbekistan',
+		siteName: 'Xan',
+		emails: 'info@xan.ac',
+	},
+	keywords:
+		"Praktikum, Praktikum xan, NextJS, NextJS to'liq kurs, NextJS kurs, NextJS dasturlash, Startup, Startup loyiha, Startup xan, Xan, Xan praktikum, Xan dasturlash, Xan startup, Xan kurs, Xan kurslari, Xan dasturlash kurslari, Xan startup kurslari, Xan startup loyihalari, Sammi startup loyiha, Xan startup loyihasi, Xan startup loyihasi dasturlash",
 }
 
 export async function generateStaticParams() {

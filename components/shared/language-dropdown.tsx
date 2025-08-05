@@ -32,10 +32,11 @@ function LanguageDropdown({ isMobile = false }: Props) {
 					variant={'ghost'}
 					size={'icon'}
 					className={cn(isMobile && 'w-full bg-blue-700 h-12')}
+					aria-label='language-dropdown'
 				>
 					<Languages />
 					{isMobile && (
-						<span className='ml-2 font-space-grotesk font-medium'>
+						<span className='font-space-grotesk font-medium'>
 							{getCurrentLng(lng as string)}
 						</span>
 					)}

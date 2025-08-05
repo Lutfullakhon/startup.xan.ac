@@ -2,6 +2,7 @@ import { verifyWebhook } from '@clerk/nextjs/webhooks'
 import { NextRequest, NextResponse } from 'next/server'
 import { createUser, updateUser } from '@/actions/user.action'
 import type { WebhookEvent } from '@clerk/nextjs/server'
+import { sendNotification } from '@/actions/notification.action'
 
 export async function POST(req: NextRequest) {
 	try {
@@ -19,6 +20,8 @@ export async function POST(req: NextRequest) {
 				picture: image_url,
 			})
 
+			await sendNotification(id, 'messageWelcome')
+
 			return NextResponse.json({ message: 'User created', user })
 		}
 
@@ -34,6 +37,8 @@ export async function POST(req: NextRequest) {
 				},
 				path: ''
 			})
+
+			await sendNotification(id, 'messageWelcome')
 
 			return NextResponse.json({ message: 'User updated', user })
 		}

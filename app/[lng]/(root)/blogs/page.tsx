@@ -1,7 +1,14 @@
 import BlogCard from '@/components/cards/blog.card'
 import TopBar from '@/components/shared/top-bar'
 import { getBlogs } from '@/service/blogs.service'
+import { Metadata } from 'next'
 import { Suspense } from 'react'
+
+export const metadata: Metadata = {
+	title: 'Praktikum | Bloglar',
+	description:
+		'Bloglarimizda dasturlash, dizayn, marketing, startup loyihalari va boshqa mavzular haqida maqolalar va yangiliklar.',
+}
 
 async function Page() {
 	const blogs = await getBlogs()

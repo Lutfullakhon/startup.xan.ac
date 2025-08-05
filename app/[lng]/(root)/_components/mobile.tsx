@@ -25,7 +25,11 @@ function Mobile() {
 	return (
 		<Sheet>
 			<SheetTrigger asChild className='md:hidden'>
-				<Button size={'icon'} variant={'ghost'}>
+				<Button
+					size={'icon'}
+					variant={'ghost'}
+					aria-label='mobile-hamburger-menu'
+				>
 					<AlignCenter />
 				</Button>
 			</SheetTrigger>

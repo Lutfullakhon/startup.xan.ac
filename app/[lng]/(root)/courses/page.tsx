@@ -1,6 +1,13 @@
 import TopBar from '@/components/shared/top-bar'
 import AllCourses from './_components/all-courses'
 import { getAllCourses } from '@/actions/course.action'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+	title: 'Praktikum | Barcha kurslar',
+	description:
+		"Platformamizda mavjud bo'lgan barcha kurslar ro'yxati. O'zingizga mos kursni toping va o'rganishni boshlang!",
+}
 
 export type Props = {
 	params: Promise<{ id: string; slug: string }>

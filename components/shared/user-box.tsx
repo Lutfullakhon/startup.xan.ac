@@ -1,7 +1,6 @@
 'use client'
 
-import { SignOutButton, useUser } from '@clerk/nextjs'
-import React from 'react'
+import { SignOutButton } from '@clerk/nextjs'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -12,7 +11,7 @@ import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { Avatar, AvatarImage } from '../ui/avatar'
 import Link from 'next/link'
 import useTranslate from '@/hooks/use-translate'
-import { Button } from '../ui/button'
+import useUser from '@/hooks/use-user'
 
 function UserBox() {
 	const { user } = useUser()
@@ -21,8 +20,8 @@ function UserBox() {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Avatar className='size-12 cursor-pointer'>
-					<AvatarImage src={user?.imageUrl} className='object-cover' />
+				<Avatar className='size-10 cursor-pointer'>
+					<AvatarImage src={user?.picture} className='object-cover' />
 				</Avatar>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent
@@ -33,13 +32,13 @@ function UserBox() {
 			>
 				<div className='flex flex-col space-y-4 p-2'>
 					<p className='text-xs font-medium leading-none text-muted-foreground'>
-						{user?.emailAddresses[0].emailAddress}
+						{user?.email}
 					</p>
 
 					<div className='flex items-center gap-x-2'>
 						<div className='rounded-md bg-secondary p-1'>
 							<Avatar className='size-8'>
-								<AvatarImage src={user?.imageUrl} />
+								<AvatarImage src={user?.picture} />
 							</Avatar>
 						</div>
 
@@ -52,24 +51,30 @@ function UserBox() {
 				</div>
 
 				<DropdownMenuSeparator />
-				<Link href={'/instructor'}>
-					<DropdownMenuItem className='w-full cursor-pointer text-muted-foreground'>
-						Instructor
-					</DropdownMenuItem>
-				</Link>
+				{user?.isAdmin && (
+					<Link href={'/admin'}>
+						<DropdownMenuItem className='w-full cursor-pointer text-muted-foreground'>
+							{t('admin')}
+						</DropdownMenuItem>
+					</Link>
+				)}
+				{user?.role === 'instructor' && (
+					<Link href={'/instructor'}>
+						<DropdownMenuItem className='w-full cursor-pointer text-muted-foreground'>
+							{t('instructor')}
+						</DropdownMenuItem>
+					</Link>
+				)}
 				<Link href={'/profile'}>
 					<DropdownMenuItem className='w-full cursor-pointer text-muted-foreground'>
 						{t('manageAccount')}
 					</DropdownMenuItem>
 				</Link>
-
 				<DropdownMenuItem
 					asChild
 					className='w-full cursor-pointer text-muted-foreground'
 				>
-					<SignOutButton>
-						<Button>{t('logout')}</Button>
-					</SignOutButton>
+					<SignOutButton>{t('logout')}</SignOutButton>
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>

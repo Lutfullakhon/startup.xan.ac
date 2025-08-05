@@ -3,7 +3,14 @@ import TopBar from '@/components/shared/top-bar'
 import { translation } from '@/i18n/server'
 import { LngParams } from '@/types'
 import { Mail, Phone } from 'lucide-react'
+import { Metadata } from 'next'
 import React from 'react'
+
+export const metadata: Metadata = {
+	title: 'Praktikum | Bog`lanish',
+	description:
+		"Agar savolingiz bo'lsa, biz bilan bog'laning. Bizning operatorlarimiz sizga yordam berishga tayyorlar.",
+}
 
 async function Page({ params }: LngParams) {
 	const { lng } = await params

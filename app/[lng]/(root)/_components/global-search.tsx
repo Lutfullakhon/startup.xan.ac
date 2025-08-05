@@ -36,7 +36,12 @@ function GlobalSearch() {
 
 	return (
 		<div className='search-box'>
-			<Button size={'icon'} variant={'ghost'} className='btn-search'>
+			<Button
+				size={'icon'}
+				variant={'ghost'}
+				className='btn-search'
+				aria-label='search-btn'
+			>
 				<Search />
 			</Button>
 			<input

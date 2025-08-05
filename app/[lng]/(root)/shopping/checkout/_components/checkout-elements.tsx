@@ -17,6 +17,7 @@ import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
+import { applyCoupon } from '@/actions/payment.action'
 import FillLoading from '@/components/shared/fill-loading'
 import { X } from 'lucide-react'
 
@@ -45,16 +46,9 @@ function CheckoutElement({ cards }: Props) {
 	const onSubmit = async ({ code }: z.infer<typeof couponSchema>) => {
 		setLoading(true)
 		try {
-			const res = await fetch('/api/apply-coupon', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ code }),
-			})
-			const data = await res.json()
-			if (res.ok && data.valid) {
-				setCoupon(data.percent_off)
-			} else {
-				throw new Error(data.error || 'Invalid coupon')
+			const res = await applyCoupon(code)
+			if (res.valid) {
+				setCoupon(res.percent_off)
 			}
 		} catch (error) {
 			const result = error as Error

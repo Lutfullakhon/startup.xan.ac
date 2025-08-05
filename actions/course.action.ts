@@ -3,7 +3,7 @@
 
 import { connectToDatabase } from '@/lib/mongoose'
 import Course from '@/database/course.models'
-import { GetAllCoursesParams, GetCoursesParams, ICreateCourse } from './types'
+import { GetAllCoursesParams, GetCoursesParams, GetPaginationParams, ICreateCourse } from './types'
 import { ICourse, ILesson } from '@/app.types'
 import { revalidatePath } from 'next/cache'
 import User from '@/database/user.model'
@@ -40,6 +40,7 @@ export const getCourses = async (params: GetCoursesParams) => {
 		const courses = await Course.find({ instructor: _id })
 			.skip(skipAmount)
 			.limit(pageSize)
+			.populate({ path: 'instructor', select: 'fullName picture clerkId', model: User })
 
 		const totalCourses = await Course.find({ instructor: _id }).countDocuments()
 		const isNext = totalCourses > skipAmount + courses.length
@@ -132,7 +133,7 @@ export const getFeaturedCourses = cache(async () => {
 			.select('previewImage title slug oldPrice currentPrice instructor')
 			.populate({
 				path: 'instructor',
-				select: 'fullName picture',
+				select: 'fullName picture clerkId',
 				model: User,
 			})
 
@@ -152,7 +153,7 @@ export const getDetailedCourse = cache(async (id: string) => {
 			)
 			.populate({
 				path: 'instructor',
-				select: 'fullName picture',
+				select: 'fullName picture clerkId',
 				model: User,
 			})
 
@@ -250,7 +251,7 @@ export const getAllCourses = async (params: GetAllCoursesParams) => {
 			.select('previewImage title slug _id oldPrice currentPrice instructor')
 			.populate({
 				path: 'instructor',
-				select: 'fullName picture',
+				select: 'fullName picture clerkId',
 				model: User,
 			})
 			.skip(skipAmount)
@@ -483,7 +484,7 @@ export const getWishlist = async (clerkId: string) => {
 			.select('previewImage title slug oldPrice currentPrice instructor')
 			.populate({
 				path: 'instructor',
-				select: 'fullName picture',
+				select: 'fullName picture clerkId',
 				model: User,
 			})
 
@@ -492,4 +493,28 @@ export const getWishlist = async (clerkId: string) => {
 		throw new Error('Something went wrong while getting whishlist!')
 	}
 }
+
+export const getAdminCourses = async (params: GetPaginationParams) => {
+	try {
+		await connectToDatabase()
+		const { page = 1, pageSize = 3 } = params
+
+		const skipAmount = (page - 1) * pageSize
+
+		const courses = await Course.find()
+			.skip(skipAmount)
+			.limit(pageSize)
+			.sort({ createdAt: -1 })
+			.populate('instructor previewImage title')
+			.populate({ path: 'instructor', select: 'fullName picture clerkId', model: User })
+
+		const totalCourses = await Course.countDocuments()
+		const isNext = totalCourses > skipAmount + courses.length
+
+		return { courses, isNext, totalCourses }
+	} catch (error) {
+		throw new Error('Something went wrong while getting admin courses!')
+	}
+}
+
 

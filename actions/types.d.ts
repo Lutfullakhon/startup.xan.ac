@@ -68,3 +68,7 @@ export interface GetReviewParams {
 	pageSize?: number
 }
 
+export interface GetPaginationParams {
+	page?: number
+	pageSize?: number
+}

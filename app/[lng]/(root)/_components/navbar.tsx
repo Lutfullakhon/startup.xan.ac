@@ -17,6 +17,7 @@ import Mobile from './mobile'
 import { useParams, usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { useCart } from '@/hooks/use-cart'
+import Notification from '@/components/shared/notification'
 
 function Navbar() {
 	const t = useTranslate()
@@ -50,14 +51,15 @@ function Navbar() {
 						<div className='hidden md:flex'>
 							<GlobalSearch />
 							<LanguageDropdown />
-
+							<Notification />
 							<Button
 								size={'icon'}
 								variant={'ghost'}
 								asChild
 								className='relative'
+								aria-label='shopping-cart'
 							>
-								<Link href={'/shopping/cart'}>
+								<Link href={'/shopping/cart'} aria-label='shopping-cart'>
 									<ShoppingCart />
 									{cartsLength() ? (
 										<div className='absolute -right-2 -top-2 flex size-6 items-center justify-center rounded-full bg-destructive'>

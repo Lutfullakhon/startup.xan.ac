@@ -1,3 +1,5 @@
+import { LucideIcon } from 'lucide-react'
+
 export interface ICourse {
 	_id: string
 	title: string
@@ -66,6 +68,9 @@ export interface IUser {
 	linkedin: string
 	github: string
 	youtube: string
+	approvedInstructor: boolean
+	isAdmin: boolean
+	
 }
 
 
@@ -114,3 +119,21 @@ export interface IPayment {
 	}
 }
 
+export interface INavLinks {
+	label: string
+	route: string
+	icon: LucideIcon
+}
+
+export interface INotification {
+	_id: string
+	user: IUser
+	message: string
+	isRead: boolean
+	createdAt: string
+}
+
+export interface IMessage {
+	role: string
+	content: string
+}

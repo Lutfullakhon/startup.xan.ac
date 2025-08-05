@@ -13,31 +13,42 @@ import { setFlag } from '@/actions/review.action'
 import { toast } from 'sonner'
 import FillLoading from '../shared/fill-loading'
 import { FaCheck, FaTimes } from 'react-icons/fa'
+import { sendNotification } from '@/actions/notification.action'
 
 interface Props {
 	review: IReview
 	isProfile?: boolean
+	isAdmin?: boolean
 }
 
-function InsrtuctorReviewCard({ review, isProfile }: Props) {
+function InsrtuctorReviewCard({ review, isProfile, isAdmin }: Props) {
 	const [isLoading, setIsLoading] = useState(false)
 	const pathname = usePathname()
 
 	const handleFlag = async () => {
 		setIsLoading(true)
-		const promise = setFlag(review._id, !review.isFlag, pathname).finally(() =>
+		const upd = setFlag(review._id, !review.isFlag, pathname).finally(() =>
 			setIsLoading(false)
 		)
 
+		const not = sendNotification(review.user.clerkId, 'messageReviewFlagged')
+
+		const promise = Promise.all([upd, not])
+
 		toast.promise(promise, {
 			loading: 'Loading...',
-			success: 'Review flagged successfully',
-			error: 'Error flagging review',
+			success: 'Successfully',
+			error: 'Something went wrong. Please try again.',
 		})
 	}
 
 	return (
-		<div className='flex gap-4 border-b pb-4'>
+		<div
+			className={cn(
+				'relative flex gap-4 border-b pb-4',
+				isAdmin && 'bg-background p-2 rounded-md'
+			)}
+		>
 			{isLoading && <FillLoading />}
 			<div className='flex-1'>
 				<div className='flex gap-3'>

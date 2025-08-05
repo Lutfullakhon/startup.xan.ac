@@ -4,6 +4,7 @@ import { Card, CardContent } from '../ui/card'
 import Image from 'next/image'
 import { Separator } from '../ui/separator'
 import { ICourse } from '@/app.types'
+import CustomImage from '../shared/custom-image'
 
 function CourseCard(course: ICourse) {
 	const hasInstructor = !!course.instructor && !!course.instructor.picture
@@ -12,13 +13,7 @@ function CourseCard(course: ICourse) {
 		<Link href={`/course/${course._id}`}>
 			<Card className='group'>
 				<CardContent className='relative h-56 w-full'>
-					<Image
-						fill
-						src={course.previewImage}
-						alt={course.title}
-						className='object-cover'
-						sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-					/>
+					<CustomImage src={course.previewImage} alt={course.title} />
 				</CardContent>
 
 				<div className='my-4 flex flex-col space-y-2 px-2'>
@@ -30,12 +25,10 @@ function CourseCard(course: ICourse) {
 						<div className='flex items-center gap-2'>
 							<div className='relative size-[40px]'>
 								{hasInstructor ? (
-									<Image
+									<CustomImage
 										src={course.instructor.picture}
 										alt={course.instructor.fullName || 'Instructor'}
-										fill
 										className='rounded-full'
-										sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
 									/>
 								) : (
 									<div className='size-[40px] rounded-full bg-gray-200' />
