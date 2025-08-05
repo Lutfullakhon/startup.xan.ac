@@ -11,10 +11,7 @@ import CourseCard from '@/components/cards/course.card'
 import Props from '../page'
 import { Metadata, ResolvingMetadata } from 'next'
 
-export async function generateMetadata(
-	{ params }: { params: { instructorId: string } },
-	parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({ params }: Props) {
 	const user = await getUserById(params.instructorId)
 
 	if (!user) {
