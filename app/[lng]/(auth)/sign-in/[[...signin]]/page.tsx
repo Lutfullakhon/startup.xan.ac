@@ -13,7 +13,8 @@ export default function Page() {
 		<SignIn
 			appearance={{ baseTheme: resolvedTheme === 'dark' ? dark : undefined }}
 			path={`/${lng}/sign-in`}
-			forceRedirectUrl={`/${lng}/`} // ✅ preferred replacement
+			fallbackRedirectUrl={`/${lng}/`}
+			forceRedirectUrl={`/${lng}/dashboard`}
 		/>
 	)
 }

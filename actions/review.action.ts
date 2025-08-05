@@ -25,12 +25,17 @@ export const createReview = async (
 
 export const getReview = async (course: string, clerkId: string) => {
 	try {
-		await connectToDatabase()
+		if (!clerkId || !course) {
+			throw new Error(`Missing clerkId or course: ${clerkId}, ${course}`)
+		}
 
+		await connectToDatabase()
 		const user = await User.findOne({ clerkId })
-		if (!user) throw new Error('User not found')
+		if (!user) throw new Error(`User not found for clerkId: ${clerkId}`)
 
 		const review = await Review.findOne({ user: user._id, course })
+		if (!review) return null
+
 		return JSON.parse(JSON.stringify(review))
 	} catch (error) {
 		console.error('getReview error:', error)
@@ -60,7 +65,11 @@ export const getReviews = async (params: GetReviewParams) => {
 
 		const reviews = await Review.find({ course: { $in: courses } })
 			.sort({ createdAt: -1 })
-			.populate({ path: 'user', model: User, select: 'fullName picture clerkId' })
+			.populate({
+				path: 'user',
+				model: User,
+				select: 'fullName picture clerkId',
+			})
 			.populate({ path: 'course', model: Course, select: 'title' })
 			.skip(skipAmount)
 			.limit(pageSize)

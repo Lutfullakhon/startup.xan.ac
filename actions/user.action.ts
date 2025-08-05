@@ -86,6 +86,7 @@ export const getUser = async (clerkId: string) => {
 	}
 }
 
+
 export const getUserReviews = async (clerkId: string) => {
 	try {
 		await connectToDatabase()

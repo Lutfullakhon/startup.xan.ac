@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation'
 import { ChildProps } from '@/types'
 import Navbar from './_components/navbar'
 import Footer from './_components/footer'
+import RefreshModal from '@/components/modals/refresh.modal'
 
 function Layout({ children }: ChildProps) {
 	const pathname = usePathname()
@@ -24,6 +25,7 @@ function Layout({ children }: ChildProps) {
 			<Navbar />
 			<main>{children}</main>
 			<Footer />
+			<RefreshModal />
 		</div>
 	)
 }

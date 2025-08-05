@@ -25,7 +25,8 @@ function ReviewModal() {
 
 	const { isOpen, onClose, isLoading, startLoading, stopLoading } = useReview()
 	const { userId } = useAuth()
-	const { courseId } = useParams()
+	const params = useParams()
+	const courseId = params?.id as string
 	const t = useTranslate()
 
 	const form = useForm<z.infer<typeof reviewSchema>>({
@@ -55,19 +56,27 @@ function ReviewModal() {
 
 	useEffect(() => {
 		async function fetchReview() {
-			startLoading()
-			const res = await getReview(`${courseId}`, userId!)
-			if (res) {
-				setRating(res.rating)
-				setReview(res)
-				form.setValue('data', res.data)
-			}
-			stopLoading()
-		}
-		fetchReview()
+			if (!courseId || !userId) return
 
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isOpen])
+			startLoading()
+			try {
+				const res = await getReview(courseId, userId)
+				if (res) {
+					setRating(res.rating)
+					setReview(res)
+					form.setValue('data', res.data)
+				}
+			} catch (err) {
+				console.error('Failed to fetch review:', err)
+			} finally {
+				stopLoading()
+			}
+		}
+
+		if (isOpen) {
+			fetchReview()
+		}
+	}, [isOpen, courseId, userId])
 
 	return (
 		<Dialog open={isOpen} onOpenChange={onClose}>
