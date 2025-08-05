@@ -8,11 +8,7 @@ import parse from 'html-react-parser'
 import { Separator } from '@/components/ui/separator'
 import { Metadata, ResolvingMetadata } from 'next'
 
-export async function generateMetadata(
-	params: Promise<{
-		slug: string
-	}>
-) {
+export async function generateMetadata({ params }: Props) {
 	const blog = await getDetailedBlog((await params).slug!)
 
 	return {
