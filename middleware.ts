@@ -24,6 +24,9 @@ const isPublicRoute = createRouteMatcher([
   '/:lng/instructors',
   '/:lng/instructors/:instructorId',
   '/:lng/shopping/cart',
+  '/:lng/sign-in',
+  '/:lng/sign-up',
+
 ]);
 
 export default clerkMiddleware(async (authPromise, req: NextRequest) => {

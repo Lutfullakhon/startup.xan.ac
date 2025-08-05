@@ -6,11 +6,9 @@ import { Button } from '@/components/ui/button'
 import { navLinks } from '@/constants'
 import { LogIn, ShoppingCart } from 'lucide-react'
 import Link from 'next/link'
-import React from 'react'
 import GlobalSearch from './global-search'
 import LanguageDropdown from '@/components/shared/language-dropdown'
-import { SignedOut, SignedIn, SignInButton, SignUpButton } from '@clerk/nextjs'
-
+import { SignInButton, SignedIn, SignedOut } from '@clerk/nextjs'
 import UserBox from '@/components/shared/user-box'
 import useTranslate from '@/hooks/use-translate'
 import Mobile from './mobile'
@@ -27,7 +25,7 @@ function Navbar() {
 
 	return (
 		<div className='fixed inset-0 z-40 h-20 bg-background/70 backdrop-blur-xl'>
-			<div className='container mx-auto flex h-full max-w-7xl justify-between items-center'>
+			<div className='container mx-auto flex h-full max-w-7xl items-center justify-between border-b'>
 				<div className='flex items-center gap-4'>
 					<Logo />
 					<div className='hidden items-center gap-3 border-l pl-2 md:flex'>
@@ -47,14 +45,14 @@ function Navbar() {
 				</div>
 
 				<div className='flex items-center gap-2'>
-					<div className='flex items-center gap-2 md:border-r '>
-						<div className='hidden md:flex'>
+					<div className='flex items-center gap-2 md:border-r md:pr-3'>
+						<div className='hidden gap-1 md:flex'>
 							<GlobalSearch />
 							<LanguageDropdown />
 							<Notification />
 							<Button
 								size={'icon'}
-								variant={'ghost'}
+								variant={cartsLength() ? 'secondary' : 'ghost'}
 								asChild
 								className='relative'
 								aria-label='shopping-cart'
@@ -72,26 +70,15 @@ function Navbar() {
 						<Mobile />
 						<ModeToggle />
 					</div>
-
 					<SignedIn>
 						<UserBox />
 					</SignedIn>
 					<SignedOut>
 						<SignInButton mode='modal'>
-							<Button
-								variant={'ghost'}
-								size={'lg'}
-								rounded={'full'}
-								className='hidden md:flex'
-							>
+							<Button size={'lg'} rounded={'full'} className='hidden md:flex'>
 								{t('logIn')}
 							</Button>
 						</SignInButton>
-						<SignUpButton mode='modal'>
-							<Button size={'lg'} rounded={'full'} className='hidden md:flex'>
-								{t('signUp')}
-							</Button>
-						</SignUpButton>
 						<SignInButton mode='modal'>
 							<Button size={'icon'} variant={'ghost'} className='md:hidden'>
 								<LogIn />

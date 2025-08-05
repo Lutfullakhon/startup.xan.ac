@@ -2,6 +2,8 @@ import TopBar from '@/components/shared/top-bar'
 import Image from 'next/image'
 import InstructorForm from './_components/instructor-form'
 import { Metadata } from 'next'
+import { currentUser } from '@clerk/nextjs/server'
+import { RedirectToSignUp } from '@clerk/nextjs'
 
 export const metadata: Metadata = {
 	title: 'Praktikum | Muallim boʻlish',
@@ -9,7 +11,14 @@ export const metadata: Metadata = {
 		'Praktikum platformasida muallim boʻlish uchun ariza qoldiring. Oʻzingizga mos kursni tuzing va oʻrganishni boshlang!',
 }
 
-async function Page() {
+export default async function Page({ params }: { params: { lng: string } }) {
+	const user = await currentUser()
+
+	// 🔐 If user not signed in, redirect to SignUp with correct language
+	if (!user) {
+		return <RedirectToSignUp redirectUrl={`/${params.lng}/become-instructor`} />
+	}
+
 	return (
 		<>
 			<TopBar
@@ -18,11 +27,11 @@ async function Page() {
 			/>
 
 			<div className='container mx-auto mt-12 min-h-[50vh] max-w-6xl'>
-				<div className='grid grid-cols-2 gap-2'>
+				<div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
 					<InstructorForm />
 
 					<Image
-						src={'/assets/instructor.png'}
+						src='/assets/instructor.png'
 						alt='Instructor'
 						width={430}
 						height={430}
@@ -33,5 +42,3 @@ async function Page() {
 		</>
 	)
 }
-
-export default Page
