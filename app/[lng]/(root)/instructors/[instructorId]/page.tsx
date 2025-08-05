@@ -11,7 +11,7 @@ import CourseCard from '@/components/cards/course.card'
 import { Metadata, ResolvingMetadata } from 'next'
 
 export async function generateMetadata({ params }: Props) {
-	const user = await getUserById(params.instructorId)
+	const user = await getUserById((await params).instructorId)
 
 	if (!user) {
 		return {
@@ -32,22 +32,23 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export type Props = {
-	params: { lng: string; instructorId: string }
+	params: Promise<{ lng: string; instructorId: string }>
+
 	searchParams?: { [key: string]: string | string[] | undefined }
 }
 
 async function Page({ params, searchParams }: Props) {
-	const { t } = await translation(params.lng)
+	const { t } = await translation((await params).lng)
 
 	const page = searchParams?.page ? +searchParams.page : 1
 
-	const user = await getUserById(params.instructorId)
+	const user = await getUserById((await params).instructorId)
 
 	if (!user) {
 		throw new Error('User not found')
 	}
 	const result = await getCourses({
-		clerkId: params.instructorId,
+		clerkId: (await params).instructorId,
 		page,
 		pageSize: 6,
 	})
