@@ -8,6 +8,8 @@ import { ClerkProvider } from '@clerk/nextjs'
 import { dir } from 'i18next'
 import { localization } from '@/lib/utils'
 import { Toaster } from 'sonner'
+import NextTopLoader from 'nextjs-toploader'
+import { GoogleTagManager } from '@next/third-parties/google'
 
 const roboto = Roboto({
 	variable: '--font-roboto',
@@ -61,6 +63,7 @@ async function RootLayout({ children, params }: Props) {
 	return (
 		<ClerkProvider localization={local}>
 			<html lang={lng} dir={dir(lng)} suppressHydrationWarning>
+				<GoogleTagManager gtmId='G-YKPWF6S1DS' />
 				<body
 					className={`${roboto.variable} ${spaceGrotesk.variable} overflow-x-hidden`}
 					suppressHydrationWarning
@@ -71,6 +74,18 @@ async function RootLayout({ children, params }: Props) {
 						enableSystem
 						disableTransitionOnChange
 					>
+						<NextTopLoader
+							color='#3182CE'
+							initialPosition={0.5}
+							crawlSpeed={200}
+							height={2}
+							crawl={true}
+							showSpinner={false}
+							easing='ease'
+							speed={200}
+							shadow='0 0 10px #3182CE,0 0 5px #3182CE'
+						/>
+
 						<Toaster position='top-center' />
 						{children}
 					</ThemeProvider>

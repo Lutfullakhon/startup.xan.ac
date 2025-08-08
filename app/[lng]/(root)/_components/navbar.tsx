@@ -35,7 +35,8 @@ function Navbar() {
 								key={nav.route}
 								className={cn(
 									'font-medium transition-all hover:text-blue-500 hover:underline',
-									pathname === `/${lng}/${nav.route}` && 'text-blue-500'
+									(nav.route === '' ? `${pathname}/` : pathname) ===
+										`/${lng}/${nav.route}` && 'text-blue-500'
 								)}
 							>
 								{t(nav.name)}

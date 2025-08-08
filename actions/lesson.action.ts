@@ -245,3 +245,22 @@ export const getLastLesson = async (clerkId: string, courseId: string) => {
     );
   }
 };
+
+export const getFreeLessons = async (courseId: string) => {
+	try {
+		await connectToDatabase()
+		const sections = await Section.find({ course: courseId }).populate({
+			path: 'lessons',
+			model: Lesson,
+			select: 'title videoUrl duration',
+			match: { free: true },
+		})
+
+		const lessons = sections.map(section => section.lessons).flat()
+
+		return JSON.parse(JSON.stringify(lessons))
+	} catch (error) {
+		throw new Error('Something went wrong!')
+	}
+}
+
