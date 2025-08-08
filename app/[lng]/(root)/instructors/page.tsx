@@ -11,13 +11,15 @@ export const metadata: Metadata = {
 }
 
 export type Props = {
-	searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
+	searchParams?: { [key: string]: string | string[] | undefined }
 }
 
 async function Page({ searchParams }: Props) {
-	const search = await searchParams
 	const page =
-		search && typeof search.page === 'string' ? parseInt(search.page) : 1
+		searchParams && typeof searchParams.page === 'string'
+			? parseInt(searchParams.page)
+			: 1
+
 	const instructorData = await getAdminInstructors({ page, pageSize: 8 })
 
 	return (
