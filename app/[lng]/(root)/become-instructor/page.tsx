@@ -12,20 +12,21 @@ export const metadata: Metadata = {
 		'Praktikum platformasida muallim boʻlish uchun ariza qoldiring. Oʻzingizga mos kursni tuzing va oʻrganishni boshlang!',
 }
 
-type PageProps = {
-	params: {
-		lng: string
-	}
-}
+// ✅ Updated type according to Next.js 15 params API
+export default async function Page({
+	params,
+}: {
+	params: Promise<{ lng: string }>
+}) {
+	// Await the params before using them
+	const { lng } = await params
 
-export default async function Page({ params }: PageProps) {
 	// Server-side: get current user
 	const user = await currentUser()
 
-	// If not signed in — server redirect to sign-up page (no client flicker)
+	// If not signed in — server redirect to sign-up page
 	if (!user) {
-		// Redirect to localized sign up route, e.g. /en/sign-up
-		return redirect(`/${params.lng}/sign-up`)
+		return redirect(`/${lng}/sign-up`)
 	}
 
 	return (
