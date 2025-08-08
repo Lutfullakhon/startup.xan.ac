@@ -10,12 +10,14 @@ import NoResult from '@/components/shared/no-result'
 import CourseCard from '@/components/cards/course.card'
 import { Metadata } from 'next'
 
-export type Props = {
+export type PageProps = {
 	params: { lng: string; instructorId: string }
 	searchParams?: { [key: string]: string | string[] | undefined }
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+	params,
+}: PageProps): Promise<Metadata> {
 	const user = await getUserById(params.instructorId)
 
 	if (!user) {
@@ -36,13 +38,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	}
 }
 
-async function Page({ params, searchParams }: Props) {
+export default async function Page({ params, searchParams }: PageProps) {
 	const { t } = await translation(params.lng)
-
 	const page = searchParams?.page ? +searchParams.page : 1
 
 	const user = await getUserById(params.instructorId)
-
 	if (!user) {
 		throw new Error('User not found')
 	}
@@ -110,5 +110,3 @@ async function Page({ params, searchParams }: Props) {
 		</>
 	)
 }
-
-export default Page
