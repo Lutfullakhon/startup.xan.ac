@@ -1,9 +1,10 @@
+// app/[lng]/(root)/become-instructor/page.tsx
 import TopBar from '@/components/shared/top-bar'
 import Image from 'next/image'
 import InstructorForm from './_components/instructor-form'
 import { Metadata } from 'next'
 import { currentUser } from '@clerk/nextjs/server'
-import { RedirectToSignUp } from '@clerk/nextjs'
+import { redirect } from 'next/navigation'
 
 export const metadata: Metadata = {
 	title: 'Praktikum | Muallim boʻlish',
@@ -11,12 +12,20 @@ export const metadata: Metadata = {
 		'Praktikum platformasida muallim boʻlish uchun ariza qoldiring. Oʻzingizga mos kursni tuzing va oʻrganishni boshlang!',
 }
 
-export default async function Page({ params }: { params: { lng: string } }) {
+type PageProps = {
+	params: {
+		lng: string
+	}
+}
+
+export default async function Page({ params }: PageProps) {
+	// Server-side: get current user
 	const user = await currentUser()
 
-	// 🔐 If user not signed in, redirect to SignUp with correct language
+	// If not signed in — server redirect to sign-up page (no client flicker)
 	if (!user) {
-		return <RedirectToSignUp redirectUrl={`/${params.lng}/become-instructor`} />
+		// Redirect to localized sign up route, e.g. /en/sign-up
+		return redirect(`/${params.lng}/sign-up`)
 	}
 
 	return (
