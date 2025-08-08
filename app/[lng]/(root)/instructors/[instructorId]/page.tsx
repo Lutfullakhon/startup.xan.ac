@@ -10,15 +10,13 @@ import NoResult from '@/components/shared/no-result'
 import CourseCard from '@/components/cards/course.card'
 import { Metadata } from 'next'
 
-export type PageProps = {
-	params: { lng: string; instructorId: string }
-	searchParams?: { [key: string]: string | string[] | undefined }
-}
-
 export async function generateMetadata({
 	params,
-}: PageProps): Promise<Metadata> {
-	const user = await getUserById(params.instructorId)
+}: {
+	params: Promise<{ lng: string; instructorId: string }>
+}): Promise<Metadata> {
+	const { instructorId } = await params
+	const user = await getUserById(instructorId)
 
 	if (!user) {
 		return {
@@ -38,17 +36,26 @@ export async function generateMetadata({
 	}
 }
 
-export default async function Page({ params, searchParams }: PageProps) {
-	const { t } = await translation(params.lng)
-	const page = searchParams?.page ? +searchParams.page : 1
+export default async function Page({
+	params,
+	searchParams,
+}: {
+	params: Promise<{ lng: string; instructorId: string }>
+	searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
+	const { lng, instructorId } = await params
+	const search = searchParams ? await searchParams : {}
+	const page = search?.page ? Number(search.page) : 1
 
-	const user = await getUserById(params.instructorId)
+	const { t } = await translation(lng)
+
+	const user = await getUserById(instructorId)
 	if (!user) {
 		throw new Error('User not found')
 	}
 
 	const result = await getCourses({
-		clerkId: params.instructorId,
+		clerkId: instructorId,
 		page,
 		pageSize: 6,
 	})
