@@ -11,21 +11,20 @@ export const metadata: Metadata = {
 }
 
 export type Props = {
-	searchParams?: { [key: string]: string | string[] | undefined }
+	params: Promise<{ lng: string }>
+	searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-async function Page({ searchParams }: Props) {
-	const page =
-		searchParams && typeof searchParams.page === 'string'
-			? parseInt(searchParams.page)
-			: 1
+export default async function Page({ params, searchParams }: Props) {
+	const { lng } = await params
+	const search = searchParams ? await searchParams : {}
+	const page = typeof search.page === 'string' ? parseInt(search.page) : 1
 
 	const instructorData = await getAdminInstructors({ page, pageSize: 8 })
 
 	return (
 		<>
 			<TopBar label='allInstructors' description='allInstructorsDescription' />
-
 			<div className='container mx-auto mt-12 max-w-6xl'>
 				<div className='mt-4 grid grid-cols-4 gap-4'>
 					{instructorData.instructors.map(instructor => (
@@ -42,5 +41,3 @@ async function Page({ searchParams }: Props) {
 		</>
 	)
 }
-
-export default Page
