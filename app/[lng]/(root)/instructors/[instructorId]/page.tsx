@@ -8,10 +8,15 @@ import { PiStudentBold } from 'react-icons/pi'
 import SocialMedia from './_components/social-media'
 import NoResult from '@/components/shared/no-result'
 import CourseCard from '@/components/cards/course.card'
-import { Metadata, ResolvingMetadata } from 'next'
+import { Metadata } from 'next'
 
-export async function generateMetadata({ params }: Props) {
-	const user = await getUserById((await params).instructorId)
+export type Props = {
+	params: { lng: string; instructorId: string }
+	searchParams?: { [key: string]: string | string[] | undefined }
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+	const user = await getUserById(params.instructorId)
 
 	if (!user) {
 		return {
@@ -24,31 +29,26 @@ export async function generateMetadata({ params }: Props) {
 		title: `Muallim: ${user.fullName}`,
 		description: `Muallim haqida ma'lumot: ${user.bio}`,
 		openGraph: {
-			images: user.picture,
+			images: [user.picture],
 			title: `Muallim: ${user.fullName}`,
 			description: `Muallim haqida ma'lumot: ${user.bio}`,
 		},
 	}
 }
 
-export type Props = {
-	params: Promise<{ lng: string; instructorId: string }>
-
-	searchParams?: { [key: string]: string | string[] | undefined }
-}
-
 async function Page({ params, searchParams }: Props) {
-	const { t } = await translation((await params).lng)
+	const { t } = await translation(params.lng)
 
 	const page = searchParams?.page ? +searchParams.page : 1
 
-	const user = await getUserById((await params).instructorId)
+	const user = await getUserById(params.instructorId)
 
 	if (!user) {
 		throw new Error('User not found')
 	}
+
 	const result = await getCourses({
-		clerkId: (await params).instructorId,
+		clerkId: params.instructorId,
 		page,
 		pageSize: 6,
 	})
@@ -62,8 +62,8 @@ async function Page({ params, searchParams }: Props) {
 					<Image
 						src={user.picture}
 						alt={user.fullName}
-						width='155'
-						height='155'
+						width={155}
+						height={155}
 						className='rounded-md max-md:self-start'
 					/>
 					<div className='flex flex-1 flex-col space-y-2'>
