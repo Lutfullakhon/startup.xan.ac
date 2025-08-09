@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { Suspense } from 'react'
 import {
 	Sheet,
 	SheetContent,
@@ -55,7 +55,10 @@ function Mobile() {
 						<Button size={'icon'} variant={'ghost'}>
 							<ShoppingCart />
 						</Button>
-						<GlobalSearch />
+						<Suspense fallback={null}>
+							<GlobalSearch />
+						</Suspense>
+
 						<ModeToggle />
 					</div>
 				</div>

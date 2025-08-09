@@ -16,6 +16,7 @@ import { useParams, usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { useCart } from '@/hooks/use-cart'
 import Notification from '@/components/shared/notification'
+import { Suspense } from 'react'
 
 function Navbar() {
 	const t = useTranslate()
@@ -48,7 +49,9 @@ function Navbar() {
 				<div className='flex items-center gap-2'>
 					<div className='flex items-center gap-2 md:border-r md:pr-3'>
 						<div className='hidden gap-1 md:flex'>
-							<GlobalSearch />
+							<Suspense fallback={null}>
+								<GlobalSearch />
+							</Suspense>
 							<LanguageDropdown />
 							<Notification />
 							<Button
