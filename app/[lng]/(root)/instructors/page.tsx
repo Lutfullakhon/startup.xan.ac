@@ -10,11 +10,11 @@ export const metadata: Metadata = {
 		'Platformamizda mavjud boʻlgan barcha muallimlar roʻyxati. Oʻzingizga mos muallimni toping va oʻrganishni boshlang!',
 }
 
-interface Props {
+interface PageProps {
 	searchParams?: { [key: string]: string | string[] | undefined }
 }
 
-export default async function Page({ searchParams }: Props) {
+export default async function Page({ searchParams }: PageProps) {
 	const page =
 		searchParams?.page && typeof searchParams.page === 'string'
 			? parseInt(searchParams.page, 10)
