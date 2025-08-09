@@ -1,3 +1,5 @@
+'use client'
+
 import { IMessage } from '@/app.types'
 import FillLoading from '@/components/shared/fill-loading'
 import NoResult from '@/components/shared/no-result'

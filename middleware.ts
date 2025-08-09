@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 // Define locales
 const locales = ['en', 'ru', 'uz', 'tr'];
-const defaultLocale = 'en';
+const defaultLocale = 'uz';
 
 // Set up the i18n middleware
 const intlMiddleware = createIntlMiddleware({

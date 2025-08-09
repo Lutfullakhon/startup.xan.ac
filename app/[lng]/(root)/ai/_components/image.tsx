@@ -1,3 +1,5 @@
+'use client'
+
 import FillLoading from '@/components/shared/fill-loading'
 import NoResult from '@/components/shared/no-result'
 import { Button } from '@/components/ui/button'
