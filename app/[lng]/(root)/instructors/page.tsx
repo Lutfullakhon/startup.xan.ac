@@ -10,8 +10,7 @@ export const metadata: Metadata = {
 		'Platformamizda mavjud boʻlgan barcha muallimlar roʻyxati. Oʻzingizga mos muallimni toping va oʻrganishni boshlang!',
 }
 
-export type Props = {
-	params: { lng: string }
+interface Props {
 	searchParams?: { [key: string]: string | string[] | undefined }
 }
 
