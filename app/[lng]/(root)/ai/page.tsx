@@ -43,11 +43,21 @@ function Page() {
 					</div>
 
 					<div className='custom-scrollbar relative min-h-[70vh] flex-1 rounded-md bg-gradient-to-t from-background to-secondary pb-16'>
-						<Suspense fallback={null}>
-							{status === 'conv' && <Conversation />}
-							{status === 'code' && <Code />}
-							{status === 'image' && <ImageGenerator />}
-						</Suspense>
+						{status === 'conv' && (
+							<Suspense fallback={null}>
+								<Conversation />
+							</Suspense>
+						)}
+						{status === 'code' && (
+							<Suspense fallback={null}>
+								<Code />
+							</Suspense>
+						)}
+						{status === 'image' && (
+							<Suspense fallback={null}>
+								<ImageGenerator />
+							</Suspense>
+						)}
 					</div>
 				</div>
 			</div>
