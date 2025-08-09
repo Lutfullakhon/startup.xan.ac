@@ -11,22 +11,24 @@ export const metadata: Metadata = {
 }
 
 export type Props = {
-	params: Promise<{ lng: string }>
-	searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
+	params: { lng: string }
+	searchParams?: { [key: string]: string | string[] | undefined }
 }
 
-export default async function Page({ params, searchParams }: Props) {
-	const { lng } = await params
-	const search = searchParams ? await searchParams : {}
-	const page = typeof search.page === 'string' ? parseInt(search.page) : 1
+export default async function Page({ searchParams }: Props) {
+	const page =
+		searchParams?.page && typeof searchParams.page === 'string'
+			? parseInt(searchParams.page, 10)
+			: 1
 
 	const instructorData = await getAdminInstructors({ page, pageSize: 8 })
 
 	return (
 		<>
 			<TopBar label='allInstructors' description='allInstructorsDescription' />
+
 			<div className='container mx-auto mt-12 max-w-6xl'>
-				<div className='mt-4 grid grid-cols-4 gap-4'>
+				<div className='mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
 					{instructorData.instructors.map(instructor => (
 						<InstructorCard
 							key={instructor._id}
