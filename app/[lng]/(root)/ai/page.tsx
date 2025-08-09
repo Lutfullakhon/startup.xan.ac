@@ -4,7 +4,7 @@ import TopBar from '@/components/shared/top-bar'
 import { Button } from '@/components/ui/button'
 import useTranslate from '@/hooks/use-translate'
 import { Bot, CodeIcon, ImagePlus } from 'lucide-react'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import Conversation from './_components/conversation'
 import Code from './_components/code'
 import ImageGenerator from './_components/image'
@@ -43,9 +43,11 @@ function Page() {
 					</div>
 
 					<div className='custom-scrollbar relative min-h-[70vh] flex-1 rounded-md bg-gradient-to-t from-background to-secondary pb-16'>
-						{status === 'conv' && <Conversation />}
-						{status === 'code' && <Code />}
-						{status === 'image' && <ImageGenerator />}
+						<Suspense fallback={null}>
+							{status === 'conv' && <Conversation />}
+							{status === 'code' && <Code />}
+							{status === 'image' && <ImageGenerator />}
+						</Suspense>
 					</div>
 				</div>
 			</div>
