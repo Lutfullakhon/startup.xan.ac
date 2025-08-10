@@ -4,7 +4,7 @@ import { translation } from '@/i18n/server'
 import { LngParams } from '@/types'
 import { Mail, Phone } from 'lucide-react'
 import { Metadata } from 'next'
-import { Suspense } from 'react' // Import Suspense
+import { Suspense } from 'react'
 
 export const metadata: Metadata = {
 	title: 'Praktikum | Bog`lanish',
@@ -12,13 +12,22 @@ export const metadata: Metadata = {
 		"Agar savolingiz bo'lsa, biz bilan bog'laning. Bizning operatorlarimiz sizga yordam berishga tayyorlar.",
 }
 
+// Add this to disable static generation for this page
+export const dynamic = 'force-dynamic'
+
 async function Page({ params }: LngParams) {
 	const { lng } = await params
 	const { t } = await translation(lng)
 
 	return (
 		<>
-			<TopBar label='contacts' />
+			{/* Wrap TopBar in Suspense too */}
+			<Suspense
+				fallback={<div className='h-16 w-full bg-muted animate-pulse' />}
+			>
+				<TopBar label='contacts' />
+			</Suspense>
+
 			<iframe
 				src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d22564.50343710081!2d41.905196525271634!3d45.01349687283072!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40f9aa374a29ecf7%3A0x826d4750216e2bf0!2sTukhachevskiy%20Rynok!5e0!3m2!1suz!2sru!4v1748105944473!5m2!1suz!2sru'
 				loading='lazy'
@@ -49,7 +58,6 @@ async function Page({ params }: LngParams) {
 						<h1 className='mb-2 font-space-grotesk text-4xl font-bold'>
 							{t('contactForm')}
 						</h1>
-						{/* Wrap ContactForm in Suspense */}
 						<Suspense
 							fallback={
 								<div className='h-64 w-full bg-muted animate-pulse rounded-md' />
