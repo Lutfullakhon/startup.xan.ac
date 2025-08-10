@@ -3,7 +3,7 @@
 import { useReview } from '@/hooks/use-review'
 import { Dialog, DialogContent, DialogTitle } from '../ui/dialog'
 import FillLoading from '../shared/fill-loading'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react' // Added useCallback
 import ReactStars from 'react-stars'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -34,28 +34,33 @@ function ReviewModal() {
 		defaultValues: { data: '' },
 	})
 
-	const onSubmit = async (values: z.infer<typeof reviewSchema>) => {
-		startLoading()
-		const data = { ...values, rating }
+	// Fixed 1: Memoized submit handler
+	const onSubmit = useCallback(
+		async (values: z.infer<typeof reviewSchema>) => {
+			startLoading()
+			const data = { ...values, rating }
 
-		let promise
-		if (review) {
-			promise = updateReview({ ...data, _id: review._id })
-		} else {
-			promise = createReview(data, userId!, `${courseId}`)
-		}
+			let promise
+			if (review) {
+				promise = updateReview({ ...data, _id: review._id })
+			} else {
+				promise = createReview(data, userId!, `${courseId}`)
+			}
 
-		promise.then(() => onClose()).finally(() => stopLoading())
+			promise.then(() => onClose()).finally(() => stopLoading())
 
-		toast.promise(promise, {
-			loading: t('loading'),
-			success: t('successfully'),
-			error: t('error'),
-		})
-	}
+			toast.promise(promise, {
+				loading: t('loading'),
+				success: t('successfully'),
+				error: t('error'),
+			})
+		},
+		[rating, review, userId, courseId, startLoading, stopLoading, onClose, t]
+	)
 
+	// Fixed 2: Correct useEffect dependencies
 	useEffect(() => {
-		async function fetchReview() {
+		const fetchReview = async () => {
 			if (!courseId || !userId) return
 
 			startLoading()
@@ -76,13 +81,12 @@ function ReviewModal() {
 		if (isOpen) {
 			fetchReview()
 		}
-	}, [isOpen, courseId, userId])
+	}, [isOpen, courseId, userId, form, startLoading, stopLoading]) // Added missing dependencies
 
 	return (
 		<Dialog open={isOpen} onOpenChange={onClose}>
 			<DialogContent>
-				<DialogTitle className='sr-only'>Course Review</DialogTitle>{' '}
-				{/* ✅ accessible title, visually hidden */}
+				<DialogTitle className='sr-only'>{t('courseReview')}</DialogTitle>
 				{isLoading && <FillLoading />}
 				<div className='flex flex-col items-center justify-center space-y-4'>
 					<div className='mt-4 font-space-grotesk text-xl font-medium'>

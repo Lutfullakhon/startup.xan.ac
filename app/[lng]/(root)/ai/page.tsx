@@ -4,13 +4,14 @@ import TopBar from '@/components/shared/top-bar'
 import { Button } from '@/components/ui/button'
 import useTranslate from '@/hooks/use-translate'
 import { Bot, CodeIcon, ImagePlus } from 'lucide-react'
-import { Suspense, useState } from 'react'
+import { Suspense, useState, useEffect } from 'react' // Added useEffect
 import Conversation from './_components/conversation'
 import Code from './_components/code'
 import ImageGenerator from './_components/image'
 
 function Page() {
-	const [status, setStatus] = useState('conv')
+	const [status, setStatus] = useState<string | null>(null) // Initialize as null
+	const [isClient, setIsClient] = useState(false) // Track client-side state
 
 	const t = useTranslate()
 
@@ -19,6 +20,21 @@ function Page() {
 		{ label: 'generateCode', icon: <CodeIcon />, status: 'code' },
 		{ label: 'generateImage', icon: <ImagePlus />, status: 'image' },
 	]
+
+	// Fix 1: Ensure this only runs on client
+	useEffect(() => {
+		setIsClient(true)
+		setStatus('conv') // Set initial status after mount
+	}, [])
+
+	// Fix 2: Handle loading state
+	if (!isClient || status === null) {
+		return (
+			<div className='flex h-screen w-full items-center justify-center'>
+				<div className='h-12 w-12 animate-spin rounded-full border-t-2 border-primary'></div>
+			</div>
+		)
+	}
 
 	return (
 		<>
@@ -43,21 +59,18 @@ function Page() {
 					</div>
 
 					<div className='custom-scrollbar relative min-h-[70vh] flex-1 rounded-md bg-gradient-to-t from-background to-secondary pb-16'>
-						{status === 'conv' && (
-							<Suspense fallback={null}>
-								<Conversation />
-							</Suspense>
-						)}
-						{status === 'code' && (
-							<Suspense fallback={null}>
-								<Code />
-							</Suspense>
-						)}
-						{status === 'image' && (
-							<Suspense fallback={null}>
-								<ImageGenerator />
-							</Suspense>
-						)}
+						{/* Fix 3: Added proper fallbacks */}
+						<Suspense
+							fallback={
+								<div className='flex h-full items-center justify-center'>
+									<div className='h-8 w-8 animate-spin rounded-full border-t-2 border-primary'></div>
+								</div>
+							}
+						>
+							{status === 'conv' && <Conversation />}
+							{status === 'code' && <Code />}
+							{status === 'image' && <ImageGenerator />}
+						</Suspense>
 					</div>
 				</div>
 			</div>
