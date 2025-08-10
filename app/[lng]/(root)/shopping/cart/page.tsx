@@ -1,5 +1,6 @@
 'use client'
 
+import { Suspense } from 'react' // Add Suspense
 import NoResult from '@/components/shared/no-result'
 import TopBar from '@/components/shared/top-bar'
 import { Card, CardContent } from '@/components/ui/card'
@@ -11,7 +12,8 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
-function Page() {
+// Wrap your cart content in a separate component
+function CartContent() {
 	const { carts, totalPrice, taxes } = useCart()
 	const t = useTranslate()
 
@@ -123,6 +125,20 @@ function Page() {
 				</div>
 			</div>
 		</>
+	)
+}
+
+function Page() {
+	return (
+		<Suspense
+			fallback={
+				<div className='flex h-screen w-full items-center justify-center'>
+					<div className='h-12 w-12 animate-spin rounded-full border-t-2 border-primary'></div>
+				</div>
+			}
+		>
+			<CartContent />
+		</Suspense>
 	)
 }
 
