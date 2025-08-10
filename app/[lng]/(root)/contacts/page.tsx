@@ -4,7 +4,7 @@ import { translation } from '@/i18n/server'
 import { LngParams } from '@/types'
 import { Mail, Phone } from 'lucide-react'
 import { Metadata } from 'next'
-import React from 'react'
+import { Suspense } from 'react' // Import Suspense
 
 export const metadata: Metadata = {
 	title: 'Praktikum | Bog`lanish',
@@ -49,7 +49,14 @@ async function Page({ params }: LngParams) {
 						<h1 className='mb-2 font-space-grotesk text-4xl font-bold'>
 							{t('contactForm')}
 						</h1>
-						<ContactForm />
+						{/* Wrap ContactForm in Suspense */}
+						<Suspense
+							fallback={
+								<div className='h-64 w-full bg-muted animate-pulse rounded-md' />
+							}
+						>
+							<ContactForm />
+						</Suspense>
 					</div>
 				</div>
 			</div>
