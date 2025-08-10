@@ -11,11 +11,13 @@ import { Button } from '../ui/button'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form'
 import { Input } from '../ui/input'
 import { Textarea } from '../ui/textarea'
+import { Suspense } from 'react' // Add Suspense
 import useTranslate from '@/hooks/use-translate'
 
-function ContactForm() {
+// 1. Create a separate content component
+function ContactFormContent() {
 	const [isLoading, setIsLoading] = useState(false)
-	const t = useTranslate()
+	const t = useTranslate() // This now runs inside Suspense
 
 	const form = useForm<z.infer<typeof contactSchema>>({
 		resolver: zodResolver(contactSchema),
@@ -120,6 +122,24 @@ Message: ${values.message}`,
 				</Button>
 			</form>
 		</Form>
+	)
+}
+
+// 2. Wrap in Suspense
+function ContactForm() {
+	return (
+		<Suspense
+			fallback={
+				<div className='space-y-3'>
+					<div className='h-32 w-full bg-muted rounded-md animate-pulse'></div>
+					<div className='h-10 w-full bg-muted rounded-md animate-pulse'></div>
+					<div className='h-10 w-full bg-muted rounded-md animate-pulse'></div>
+					<div className='h-10 w-32 bg-muted rounded-md animate-pulse'></div>
+				</div>
+			}
+		>
+			<ContactFormContent />
+		</Suspense>
 	)
 }
 
