@@ -2,6 +2,7 @@ import TopBar from '@/components/shared/top-bar'
 import AllCourses from './_components/all-courses'
 import { getAllCourses } from '@/actions/course.action'
 import { Metadata } from 'next'
+import { Suspense } from 'react'
 
 export const metadata: Metadata = {
 	title: 'Praktikum | Barcha kurslar',
@@ -40,7 +41,9 @@ async function Page({ searchParams }: Props) {
 	return (
 		<>
 			<TopBar label='allCourses' description='allCourseDescription' />
-			<AllCourses result={result} />
+			<Suspense fallback={<div>Loading...</div>}>
+				<AllCourses result={result} />
+			</Suspense>
 		</>
 	)
 }
