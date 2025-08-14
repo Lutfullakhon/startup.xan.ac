@@ -30,7 +30,7 @@ function Instructor({ instructors }: Props) {
 				</div>
 
 				<div className='flex items-center gap-1 self-end'>
-					<Button variant={'secondary'} asChild>
+					<Button aria-label='view-all' variant={'secondary'} asChild>
 						<Link href={'/instructors'}>
 							<span>{t('viewAll')}</span>
 							<MoveUpRight className='ml-2 size-5 font-bold' />

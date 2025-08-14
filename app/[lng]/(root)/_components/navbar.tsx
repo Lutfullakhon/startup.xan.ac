@@ -25,7 +25,7 @@ function Navbar() {
 	const { cartsLength } = useCart()
 
 	return (
-		<div className='fixed inset-0 z-40 h-20 bg-background/70 backdrop-blur-xl'>
+		<div className='fixed mx-2 inset-0 z-40 h-20 bg-background/70 backdrop-blur-xl'>
 			<div className='container mx-auto flex h-full max-w-7xl items-center justify-between border-b'>
 				<div className='flex items-center gap-4'>
 					<Logo />
@@ -79,7 +79,12 @@ function Navbar() {
 					</SignedIn>
 					<SignedOut>
 						<SignInButton mode='modal'>
-							<Button size={'lg'} rounded={'full'} className='hidden md:flex'>
+							<Button
+								aria-label='login'
+								size={'lg'}
+								rounded={'full'}
+								className='hidden md:flex'
+							>
 								{t('logIn')}
 							</Button>
 						</SignInButton>

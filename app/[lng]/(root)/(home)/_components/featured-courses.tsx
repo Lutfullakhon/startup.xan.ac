@@ -58,6 +58,7 @@ function FeaturedCourses({ courses }: Props) {
 				>
 					{filterCourses.map(item => (
 						<Button
+							aria-label='item-name'
 							key={item.name}
 							variant={item.name ? 'secondary' : 'ghost'}
 							className={cn(

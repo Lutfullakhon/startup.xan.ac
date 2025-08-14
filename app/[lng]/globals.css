@@ -127,25 +127,22 @@
 
 /* SEARCH BOX */
 .search-box {
-	width: fit-content;
-	height: fit-content;
+	display: flex;
+	align-items: center; /* vertically centers children */
 	position: relative;
+	height: 40px; /* match buttons if they are 40px */
 }
+
 .input-search {
-	background-color: transparent;
-	height: 20px;
-	width: 20px;
-	border-style: none;
-	padding: 10px;
+	height: 100%;
+	border: none;
 	outline: none;
 	border-radius: 25px;
-	transition: all 0.5s ease-in-out;
-	padding-right: 40px;
+	transition: all 0.3s ease-in-out;
 }
 .btn-search {
-	position: absolute;
-	right: 0px;
-	pointer-events: painted;
+	position: relative;
+	z-index: 10;
 }
 
 /* .search-box {

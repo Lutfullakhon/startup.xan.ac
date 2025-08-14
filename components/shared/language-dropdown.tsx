@@ -31,7 +31,9 @@ function LanguageDropdown({ isMobile = false }: Props) {
 				<Button
 					variant={'ghost'}
 					size={'icon'}
-					className={cn(isMobile && 'w-full bg-blue-700 h-12')}
+					className={cn(
+						isMobile && 'w-full h-12 bg-primary text-primary-foreground'
+					)}
 					aria-label='language-dropdown'
 				>
 					<Languages />

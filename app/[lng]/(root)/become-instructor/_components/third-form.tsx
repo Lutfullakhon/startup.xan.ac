@@ -23,7 +23,10 @@ function ThirdForm({ onHandler }: Props) {
 
 	const form = useForm<z.infer<typeof bioSchema>>({
 		resolver: zodResolver(bioSchema),
-		defaultValues: {},
+		defaultValues: {
+			job: '',
+			bio: '',
+		},
 	})
 
 	const onSubmit = (values: z.infer<typeof bioSchema>) => {

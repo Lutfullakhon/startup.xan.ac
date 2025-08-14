@@ -27,12 +27,14 @@ function Hero() {
 					<p className='text-muted-foreground'>{t('heroDescription')}</p>
 					<div className='flex gap-4'>
 						<Link href={'/courses'}>
-							<Button variant={'outline'} size={'lg'}>
+							<Button aria-label='find-courses' variant={'outline'} size={'lg'}>
 								{t('findCourses')}
 							</Button>
 						</Link>
 						<Link href={'/courses'}>
-							<Button size={'lg'}>{t('blogs')}</Button>
+							<Button aria-label='blogs' size={'lg'}>
+								{t('blogs')}
+							</Button>
 						</Link>
 					</div>
 				</div>

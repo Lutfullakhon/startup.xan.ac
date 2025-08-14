@@ -78,7 +78,7 @@ async function RootLayout({ children, params }: Props) {
 							color='#3182CE'
 							initialPosition={0.5}
 							crawlSpeed={200}
-							height={2}
+							height={3.5}
 							crawl={true}
 							showSpinner={false}
 							easing='ease'

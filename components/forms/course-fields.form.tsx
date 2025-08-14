@@ -38,6 +38,7 @@ function CourseFieldsForm() {
 	const [isLoading, setIsLoading] = useState(false)
 	const [previewImage, setPreviewImage] = useState('')
 	const [open, setOpen] = useState(false)
+	const [isUploading, setIsUploading] = useState(false)
 
 	const router = useRouter()
 	const { user } = useUser()
@@ -66,9 +67,11 @@ function CourseFieldsForm() {
 		formData.append(
 			'upload_preset',
 			process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || ''
-		) // your Cloudinary upload preset
+		)
 
 		try {
+			setIsUploading(true) // start loading state
+
 			const res = await fetch(
 				`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
 				{
@@ -88,6 +91,8 @@ function CourseFieldsForm() {
 		} catch (error) {
 			console.error(error)
 			toast.error('Failed to upload image')
+		} finally {
+			setIsUploading(false) // end loading state
 		}
 	}
 
@@ -298,12 +303,23 @@ function CourseFieldsForm() {
 							<FormLabel>
 								Preview Image<span className='text-red-500'>*</span>
 							</FormLabel>
-							<Input
-								type='file'
-								onChange={handleFileChange}
-								disabled={isLoading}
-								className='bg-secondary'
-							/>
+							<div className='flex items-center gap-2'>
+								<Input
+									type='file'
+									onChange={handleFileChange}
+									disabled={isLoading || isUploading}
+									className='bg-secondary'
+								/>
+								{isUploading && (
+									<div className='flex items-center gap-2'>
+										<span className='relative flex h-4 w-4'>
+											<span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75'></span>
+											<span className='relative inline-flex rounded-full h-4 w-4 bg-primary'></span>
+										</span>
+										<span className='text-sm text-gray-500'>Uploading...</span>
+									</div>
+								)}
+							</div>
 							<FormMessage />
 						</FormItem>
 					</div>

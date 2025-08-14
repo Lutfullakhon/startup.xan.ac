@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
+ 
 import { getUser } from '@/actions/user.action'
 import { IUser } from '@/app.types'
 import { useAuth } from '@clerk/nextjs'
@@ -7,27 +7,33 @@ import { useRefresh } from './use-refresh'
 
 const useUser = () => {
 	const [user, setUser] = useState<IUser | null>(null)
+	const [isLoading, setIsLoading] = useState(true)
 
 	const { onOpen } = useRefresh()
 	const { userId } = useAuth()
 
 	useEffect(() => {
+		if (!userId) {
+			setIsLoading(false)
+			return
+		}
+
 		const getData = async () => {
 			try {
-				const data = await getUser(userId!)
-				data === 'notFound' && onOpen()
+				const data = await getUser(userId)
+				if (data === 'notFound') onOpen()
 				setUser(data)
 			} catch (error) {
 				setUser(null)
+			} finally {
+				setIsLoading(false)
 			}
 		}
 
-		userId && getData()
+		getData()
+	}, [userId, onOpen])
 
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
-
-	return { user }
+	return { user, isLoading }
 }
 
 export default useUser
