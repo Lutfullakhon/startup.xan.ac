@@ -21,7 +21,9 @@ async function Page({ searchParams }: Props) {
 	return (
 		<>
 			<Header title='My courses' description='Here are your latest courses' />
-			<div className='mt-4 grid grid-cols-3 gap-4'>
+
+			{/* Responsive grid */}
+			<div className='mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
 				{result.courses.map(item => (
 					<InstructorCourseCard
 						key={item._id}
@@ -29,6 +31,7 @@ async function Page({ searchParams }: Props) {
 					/>
 				))}
 			</div>
+
 			<div className='mt-6'>
 				<Pagination pageNumber={page} isNext={result.isNext} />
 			</div>

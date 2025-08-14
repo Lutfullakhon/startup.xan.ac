@@ -78,10 +78,8 @@ export const getCourses = async (params: GetCoursesParams) => {
 
 export const getCourseById = async (id: string) => {
 	try {
-		console.log('Connecting to DB...')
+		
 		await connectToDatabase()
-
-		console.log('Fetching course with ID:', id)
 		const course = await Course.findById(id)
 
 		if (!course) {
@@ -89,7 +87,6 @@ export const getCourseById = async (id: string) => {
 			return null
 		}
 
-		console.log('Course found:', course)
 		return course as ICourse
 	} catch (error) {
 		console.error('Error in getCourseById:', error)

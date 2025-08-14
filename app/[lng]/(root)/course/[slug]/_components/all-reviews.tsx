@@ -48,8 +48,6 @@ function AllReviews(course: ICourse) {
 		}
 	}
 
-	console.log(percentages)
-
 	return (
 		<>
 			<Button

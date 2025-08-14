@@ -14,6 +14,7 @@ import { toast } from 'sonner'
 interface Props {
 	item: INotification
 }
+
 function NotificationCard({ item }: Props) {
 	const { lng } = useParams()
 	const pathname = usePathname()
@@ -41,7 +42,7 @@ function NotificationCard({ item }: Props) {
 					</div>
 				</div>
 				<p className='text-sm text-gray-400'>
-					{format(new Date(item.createdAt), 'MMMM dd, yyyy', {
+					{format(new Date(item.createdAt), "MMMM dd, yyyy 'at' HH:mm", {
 						locale: getTimeLocale(`${lng}`),
 					})}
 				</p>

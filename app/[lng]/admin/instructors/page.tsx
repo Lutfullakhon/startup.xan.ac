@@ -10,7 +10,7 @@ import {
 import Item from './_components/item'
 
 async function Page() {
-	const instructors = await getInstructors()
+	const instructors = (await getInstructors()) || []
 
 	return (
 		<>
@@ -19,27 +19,42 @@ async function Page() {
 				description='Approve or disapprove them. You can also give them the admin role.'
 			/>
 
-			<Table className='mt-4 bg-background'>
-				<TableHeader>
-					<TableRow>
-						<TableHead className='w-[100px]'>Role</TableHead>
-						<TableHead className='w-[100px]'>Email</TableHead>
-						<TableHead className='w-[100px]'>Portfolio</TableHead>
-						<TableHead className='w-[100px]'>YouTube</TableHead>
-						<TableHead className='w-[100px]'>Github</TableHead>
-						<TableHead>Job</TableHead>
-						<TableHead className='text-right'>Actions</TableHead>
-					</TableRow>
-				</TableHeader>
-				<TableBody>
-					{instructors.map(instructor => (
-						<Item
-							key={String(instructor._id)}
-							item={JSON.parse(JSON.stringify(instructor))}
-						/>
-					))}
-				</TableBody>
-			</Table>
+			<div className='mt-4 overflow-x-auto rounded-lg border border-border'>
+				<Table className='min-w-[700px] bg-background'>
+					<TableHeader>
+						<TableRow>
+							<TableHead className='whitespace-nowrap'>Role</TableHead>
+							<TableHead className='whitespace-nowrap'>Email</TableHead>
+							<TableHead className='whitespace-nowrap'>Portfolio</TableHead>
+							<TableHead className='whitespace-nowrap'>YouTube</TableHead>
+							<TableHead className='whitespace-nowrap'>Github</TableHead>
+							<TableHead className='whitespace-nowrap'>Job</TableHead>
+							<TableHead className='whitespace-nowrap text-right'>
+								Actions
+							</TableHead>
+						</TableRow>
+					</TableHeader>
+					<TableBody>
+						{instructors.length > 0 ? (
+							instructors.map(instructor => (
+								<Item
+									key={String(instructor?._id || Math.random())}
+									item={JSON.parse(JSON.stringify(instructor || {}))}
+								/>
+							))
+						) : (
+							<TableRow>
+								<td
+									colSpan={7}
+									className='py-4 text-center text-sm text-muted-foreground'
+								>
+									No instructors found
+								</td>
+							</TableRow>
+						)}
+					</TableBody>
+				</Table>
+			</div>
 		</>
 	)
 }

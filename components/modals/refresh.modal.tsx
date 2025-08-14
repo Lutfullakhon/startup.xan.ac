@@ -4,9 +4,13 @@ import { useRefresh } from '@/hooks/use-refresh'
 import { Dialog, DialogContent } from '../ui/dialog'
 import { Loader2 } from 'lucide-react'
 import Countdown, { zeroPad } from 'react-countdown'
+import { useMemo } from 'react'
 
 function RefreshModal() {
 	const { isOpen } = useRefresh()
+
+	// ✅ Calculate target time only once when component mounts
+	const targetDate = useMemo(() => Date.now() + 8000, [])
 
 	const renderer = ({ seconds }: { seconds: number }) => (
 		<span className='text-center font-space-grotesk text-5xl font-bold'>
@@ -25,7 +29,7 @@ function RefreshModal() {
 					Please wait while we refresh your data
 				</h1>
 				<Countdown
-					date={Date.now() + 8000}
+					date={targetDate} // ⬅ stable value now
 					renderer={renderer}
 					onComplete={() => location.reload()}
 				/>

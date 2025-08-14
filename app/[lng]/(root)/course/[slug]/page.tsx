@@ -65,7 +65,7 @@ async function Page({ params }: LngParams) {
 			<div className='container px-4 mx-auto max-w-6xl'>
 				<div className='grid grid-cols-3 gap-4 pt-12'>
 					<div className='col-span-2 max-lg:col-span-3'>
-						<Hero {...course} />
+						<Hero course={course} />
 						<Overview {...course} />
 					</div>
 

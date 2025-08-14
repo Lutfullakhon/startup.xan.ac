@@ -9,7 +9,6 @@ export const createCustomer = async (userId: string) => {
 	try {
 		await connectToDatabase()
 		const user = await User.findById(userId).select('email fullName')
-		console.log('[CREATE CUSTOMER] Found user:', user)
 
 		if (!user) throw new Error(`User with _id ${userId} not found`)
 
@@ -23,8 +22,6 @@ export const createCustomer = async (userId: string) => {
 		})
 
 		await User.findByIdAndUpdate(userId, { customerId: customer.id })
-
-		console.log('[CREATE CUSTOMER] Created customer:', customer.id)
 
 		return customer
 	} catch (error) {

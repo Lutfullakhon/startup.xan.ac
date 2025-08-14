@@ -1,7 +1,7 @@
 'use client'
 
 import { sendNotification } from '@/actions/notification.action'
-import { updateUser } from '@/actions/user.action'
+import { deleteUser, updateUser } from '@/actions/user.action'
 import { IUser } from '@/app.types'
 import { Button } from '@/components/ui/button'
 import {
@@ -20,6 +20,7 @@ import { toast } from 'sonner'
 interface Props {
 	item: IUser
 }
+
 function Item({ item }: Props) {
 	const pathname = usePathname()
 
@@ -57,7 +58,7 @@ function Item({ item }: Props) {
 		if (isConfirmed) {
 			const upd = updateUser({
 				clerkId: item.clerkId,
-				updatedData: { isAdmin: true },
+				updatedData: { isAdmin: !item.isAdmin },
 				path: pathname,
 			})
 
@@ -78,54 +79,63 @@ function Item({ item }: Props) {
 
 	const onDelete = async () => {
 		const isConfirmed = confirm(
-			`Are you sure you want to delete this instructor?`
+			`Are you sure you want to delete this user? All their courses, reviews, and related data will be removed.`
 		)
 
 		if (isConfirmed) {
-			const upd = updateUser({
-				clerkId: item.clerkId,
-				updatedData: { approvedInstructor: false, role: 'user' },
-				path: pathname,
-			})
-
-			const not = sendNotification(item.clerkId, 'messageDeleteInstructor')
-
-			const promise = Promise.all([upd, not])
+			const promise = deleteUser(item.clerkId, true, pathname) // true = using clerkId
 
 			toast.promise(promise, {
-				loading: 'Loading...',
-				success: `Successfully!`,
+				loading: 'Deleting user...',
+				success: `User deleted successfully!`,
 				error: 'Something went wrong. Please try again.',
 			})
 		}
+	}
+
+	// Helper to safely format a link or show fallback text
+	const formatLink = (url?: string | null) => {
+		if (!url) return 'No link'
+		return url.replace(/^https?:\/\//, '')
+	}
+
+	// Helper to open a link if it exists
+	const openLink = (url?: string | null) => {
+		if (url) window.open(url, '_blank')
 	}
 
 	return (
 		<TableRow>
 			<TableCell className='text-xs capitalize'>
 				{item.isAdmin ? 'Admin/' : ''}
-				{item.role}
+				{item.role ?? 'N/A'}
 			</TableCell>
-			<TableCell className='text-xs'>{item.email}</TableCell>
+
+			<TableCell className='text-xs'>{item.email ?? 'No email'}</TableCell>
+
 			<TableCell
 				className='cursor-pointer text-xs text-primary hover:underline'
-				onClick={() => window.open(item.website, '_blank')}
+				onClick={() => openLink(item.website)}
 			>
-				{item.website.replace(/^https?:\/\//, '')}
+				{formatLink(item.website)}
 			</TableCell>
+
 			<TableCell
 				className='cursor-pointer text-xs text-primary hover:underline'
-				onClick={() => window.open(item.youtube, '_blank')}
+				onClick={() => openLink(item.youtube)}
 			>
-				{item.youtube.replace(/^https?:\/\//, '')}
+				{formatLink(item.youtube)}
 			</TableCell>
+
 			<TableCell
 				className='cursor-pointer text-xs text-primary hover:underline'
-				onClick={() => window.open(item.github, '_blank')}
+				onClick={() => openLink(item.github)}
 			>
-				{item.github.replace(/^https?:\/\//, '')}
+				{formatLink(item.github)}
 			</TableCell>
-			<TableCell className='text-xs'>{item.job}</TableCell>
+
+			<TableCell className='text-xs'>{item.job ?? 'N/A'}</TableCell>
+
 			<TableCell className='text-right'>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>

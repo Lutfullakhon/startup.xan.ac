@@ -14,24 +14,26 @@ function AdminCourseCard({ course }: { course: ICourse }) {
 	const pathname = usePathname()
 
 	const onToggleStatus = () => {
-		let upd
-		let not
+		let upd: Promise<void>
+		let not: Promise<void> | undefined
+		const instructorId = course.instructor?.clerkId
 
 		if (course.published) {
 			upd = updateCourse(course._id, { published: false }, pathname)
-			not = sendNotification(
-				course.instructor.clerkId,
-				'messageCourseUnpublished'
-			)
+			if (instructorId) {
+				not = sendNotification(instructorId, 'messageCourseUnpublished')
+			}
 		} else {
 			upd = updateCourse(course._id, { published: true }, pathname)
-			not = sendNotification(
-				course.instructor.clerkId,
-				'messageCoursePublished'
-			)
+			if (instructorId) {
+				not = sendNotification(instructorId, 'messageCoursePublished')
+			}
 		}
 
-		const promise = Promise.all([upd, not])
+		// Always return Promise<void> for toast.promise
+		const promise: Promise<void> = not
+			? Promise.all([upd, not]).then(() => {})
+			: upd
 
 		toast.promise(promise, {
 			loading: 'Loading...',
@@ -47,9 +49,11 @@ function AdminCourseCard({ course }: { course: ICourse }) {
 					fill
 					src={course.previewImage}
 					alt={course.title}
+					sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
 					className='rounded-md object-cover'
 				/>
 			</CardContent>
+
 			<div className='my-4 flex flex-col space-y-2 px-2'>
 				<h2 className='line-clamp-1 font-space-grotesk text-2xl font-bold'>
 					{course.title}
@@ -57,24 +61,24 @@ function AdminCourseCard({ course }: { course: ICourse }) {
 
 				<Separator />
 
-				<div className='flex items-center justify-between'>
-					<div className='flex items-center gap-2'>
+				<div className='flex flex-wrap items-center justify-between gap-3'>
+					<div className='flex min-w-0 flex-shrink items-center gap-2'>
 						<Image
-							src={course.instructor.picture}
-							alt={course.instructor.fullName}
+							src={course.instructor?.picture || '/default-avatar.png'}
+							alt={course.instructor?.fullName || 'Instructor'}
 							width={40}
 							height={40}
+							sizes='40px'
 							className='rounded-full object-cover'
 						/>
-						<p className='text-sm text-muted-foreground'>
-							{course.instructor.fullName}
+						<p className='truncate text-sm text-muted-foreground max-w-[150px] sm:max-w-[200px]'>
+							{course.instructor?.fullName || 'Unknown Instructor'}
 						</p>
 					</div>
 
 					<Button
-						className='w-fit font-space-grotesk font-bold'
-						rounded={'full'}
-						size={'sm'}
+						className='w-full sm:w-auto font-space-grotesk font-bold'
+						size='sm'
 						variant={course.published ? 'destructive' : 'default'}
 						onClick={onToggleStatus}
 					>

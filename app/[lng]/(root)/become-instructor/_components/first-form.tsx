@@ -112,8 +112,8 @@ const FirstForm = ({ onHandler }: Props) => {
 								<Input
 									{...field}
 									className='bg-primary/10'
-									placeholder='0300-1234567'
-									type='number'
+									placeholder='+998958968656'
+									type='text'
 								/>
 							</FormControl>
 							<FormMessage />

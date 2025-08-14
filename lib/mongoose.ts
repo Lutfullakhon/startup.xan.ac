@@ -6,12 +6,10 @@ export const connectToDatabase = async () => {
   mongoose.set('strictQuery', true)
 
   if (!process.env.MONGODB_URL) {
-    console.error('❌ MONGODB_URL is missing')
     return
   }
 
   if (isConnected) {
-    console.log('✅ Already connected to MongoDB')
     return
   }
 
@@ -23,8 +21,5 @@ export const connectToDatabase = async () => {
 
     await mongoose.connect(process.env.MONGODB_URL, options)
     isConnected = true
-    console.log('✅ Connected to MongoDB')
-  } catch (error) {
-    console.error('❌ MongoDB connection failed:', error)
-  }
+  } catch (error) { }
 }

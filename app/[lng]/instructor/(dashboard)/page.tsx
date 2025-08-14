@@ -4,8 +4,6 @@ import StatisticsCard from '@/components/cards/statistics.card'
 import { MessageSquare, MonitorPlay } from 'lucide-react'
 import { PiStudent } from 'react-icons/pi'
 import { GrMoney } from 'react-icons/gr'
-// import { courses } from '@/constants'
-// import InstructorCourseCard from '@/components/cards/instructor-course.card'
 import ReviewCard from '@/components/cards/review.card'
 import { auth } from '@clerk/nextjs/server'
 import { getCourses } from '@/actions/course.action'
@@ -28,7 +26,8 @@ async function Page() {
 		<>
 			<Header title='Dashboard' description='Welcome to your dashboard' />
 
-			<div className='mt-4 grid grid-cols-4 gap-4'>
+			{/* Responsive statistics cards */}
+			<div className='mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
 				<StatisticsCard
 					label='Total courses'
 					value={result.totalCourses.toString()}
@@ -59,7 +58,8 @@ async function Page() {
 				description='Here are your latest courses'
 			/>
 
-			<div className='mt-4 grid grid-cols-3 gap-4'>
+			{/* Responsive courses grid */}
+			<div className='mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
 				{result.courses
 					.map(course => (
 						<InstructorCourseCard
@@ -72,7 +72,8 @@ async function Page() {
 
 			<Header title='Reviews' description='Here are your latest reviews' />
 
-			<div className='mt-4 grid grid-cols-3 gap-4'>
+			{/* Responsive reviews grid */}
+			<div className='mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
 				{reviews.map(review => (
 					<div className='rounded-md bg-background px-4 pb-4' key={review._id}>
 						<ReviewCard review={JSON.parse(JSON.stringify(review))} />

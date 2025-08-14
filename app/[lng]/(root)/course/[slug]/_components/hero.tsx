@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 'use client'
 
 import useTranslate from '@/hooks/use-translate'
@@ -14,11 +13,15 @@ import { useState } from 'react'
 import { getFreeLessons } from '@/actions/lesson.action'
 import { toast } from 'sonner'
 import FillLoading from '@/components/shared/fill-loading'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import Vimeo from '@u-wave/react-vimeo'
 import { formatLessonTime } from '@/lib/utils'
 
-function Hero(course: ICourse) {
+interface HeroProps {
+	course: ICourse // ✅ Required, no undefined
+}
+
+export default function Hero({ course }: HeroProps) {
 	const [loading, setLoading] = useState(false)
 	const [open, setOpen] = useState(false)
 	const [lessons, setLessons] = useState<ILesson[]>([])
@@ -27,13 +30,19 @@ function Hero(course: ICourse) {
 	const t = useTranslate()
 
 	const onHandler = async () => {
-		if (lessons.length > 0) return setOpen(true)
+		if (lessons.length > 0) {
+			setOpen(true)
+			return
+		}
 
 		setLoading(true)
 
 		const promise = getFreeLessons(course._id)
 			.then(data => {
-				if (data.length === 0) return toast.error(t('notFound'))
+				if (!data || data.length === 0) {
+					toast.error(t('notFound'))
+					return
+				}
 				setLessons(data)
 				setLesson(data[0])
 				setOpen(true)
@@ -49,30 +58,36 @@ function Hero(course: ICourse) {
 
 	return (
 		<>
+			{/* Title */}
 			<h1 className='font-space-grotesk text-4xl font-bold'>{course.title}</h1>
 
+			{/* Description */}
 			<p className='mt-4 text-muted-foreground'>{course.description}</p>
 
+			{/* Course Info */}
 			<div className='mt-4 flex flex-wrap items-center gap-6'>
+				{/* Instructor */}
 				<div className='flex items-center gap-2'>
 					<Image
 						width={50}
 						height={50}
 						alt={course.instructor.fullName}
-						src={course.instructor.picture}
-						className='rounded-full'
+						src={course.instructor.picture || '/default-avatar.png'}
+						className='rounded-full object-cover'
 					/>
 					<p className='font-space-grotesk font-bold'>
 						{course.instructor.fullName}
 					</p>
 				</div>
 
+				{/* Rating */}
 				<div className='flex items-center gap-2 font-space-grotesk'>
 					<p className='font-bold text-[#E59819]'>{course.rating}</p>
 					<ReactStars value={course.rating} edit={false} color2='#E59819' />
 					<p className='font-bold'>({course.reviewCount})</p>
 				</div>
 
+				{/* Students */}
 				<div className='flex items-center gap-2'>
 					<PiStudentBold className='size-6' />
 					<p className='font-space-grotesk font-bold'>
@@ -80,6 +95,7 @@ function Hero(course: ICourse) {
 					</p>
 				</div>
 
+				{/* Last Updated */}
 				<div className='flex items-center gap-2'>
 					<Clock3 className='size-6' />
 					<p className='font-space-grotesk font-bold'>
@@ -88,10 +104,11 @@ function Hero(course: ICourse) {
 				</div>
 			</div>
 
+			{/* Preview Image + Play Button */}
 			<div className='relative h-96 w-full'>
 				<CustomImage
-					src={course.previewImage}
-					alt='course'
+					src={course.previewImage || '/default-course.png'}
+					alt='course preview'
 					className='mt-4 rounded-md'
 				/>
 				{loading && <FillLoading />}
@@ -107,9 +124,13 @@ function Hero(course: ICourse) {
 				</Button>
 			</div>
 
+			{/* Free Lessons Dialog */}
 			<Dialog open={open} onOpenChange={setOpen}>
 				<DialogContent className='custom-scrollbar max-h-full max-w-full overflow-y-auto md:max-w-4xl'>
-					<Vimeo video={lesson?.videoUrl!} responsive autoplay />
+					<DialogTitle>{t('freeLessons')}</DialogTitle>
+					{lesson?.videoUrl && (
+						<Vimeo video={lesson.videoUrl} responsive autoplay />
+					)}
 					<h1 className='font-space-grotesk text-2xl font-bold'>
 						{t('freeLessons')}
 					</h1>
@@ -130,7 +151,7 @@ function Hero(course: ICourse) {
 								</div>
 
 								<p className='font-space-grotesk text-muted-foreground'>
-									{formatLessonTime(item!)}
+									{formatLessonTime(item)}
 								</p>
 							</div>
 						))}
@@ -140,5 +161,3 @@ function Hero(course: ICourse) {
 		</>
 	)
 }
-
-export default Hero

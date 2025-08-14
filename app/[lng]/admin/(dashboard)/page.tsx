@@ -27,7 +27,8 @@ async function Page() {
 		<>
 			<Header title='Dashboard' description='Welcome to your dashboard' />
 
-			<div className='mt-4 grid grid-cols-4 gap-4'>
+			{/* Stats Section */}
+			<div className='mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
 				<StatisticsCard
 					label='All Courses'
 					value={`${courseData.totalCourses}`}
@@ -53,11 +54,12 @@ async function Page() {
 				/>
 			</div>
 
+			{/* Courses Section */}
 			<Header
 				title='All Courses'
 				description='Here are all the courses you have'
 			/>
-			<div className='mt-4 grid grid-cols-3 gap-4'>
+			<div className='mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
 				{courseData.courses.map(course => (
 					<AdminCourseCard
 						key={course._id}
@@ -66,8 +68,9 @@ async function Page() {
 				))}
 			</div>
 
+			{/* Reviews Section */}
 			<Header title='Reviews' description='Here are your latest reviews' />
-			<div className='mt-4 grid grid-cols-3 gap-4'>
+			<div className='mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
 				{reviewData.reviews.map(review => (
 					<InstructorReviewCard
 						key={review._id}
@@ -77,8 +80,9 @@ async function Page() {
 				))}
 			</div>
 
+			{/* Instructors Section */}
 			<Header title='Instructors' description='Here are your instructors' />
-			<div className='mt-4 grid grid-cols-4 gap-4'>
+			<div className='mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
 				{instructorData.instructors.map(item => (
 					<InstructorCard
 						key={item._id}

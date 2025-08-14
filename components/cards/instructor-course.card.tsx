@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
 import { Badge } from '../ui/badge'
-
 import { ICourse } from '@/app.types'
 import Link from 'next/link'
 
@@ -28,11 +27,15 @@ function InstructorCourseCard({ course }: Props) {
 					)}
 				</div>
 
-				<div className='flex items-center justify-between px-2'>
-					<h1 className='font-space-grotesk text-2xl font-bold'>
+				{/* Responsive title + badge */}
+				<div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 px-2'>
+					<h1 className='font-space-grotesk text-lg sm:text-xl md:text-2xl font-bold break-words'>
 						{course.title}
 					</h1>
-					<Badge variant={course.published ? 'default' : 'destructive'}>
+					<Badge
+						variant={course.published ? 'default' : 'destructive'}
+						className='w-fit'
+					>
 						{course.published ? 'Published' : 'Draft'}
 					</Badge>
 				</div>

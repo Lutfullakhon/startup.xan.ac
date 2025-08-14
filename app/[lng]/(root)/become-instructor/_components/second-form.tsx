@@ -22,7 +22,12 @@ function SecondForm({ onHandler }: Props) {
 
 	const form = useForm<z.infer<typeof socialMediaSchema>>({
 		resolver: zodResolver(socialMediaSchema),
-		defaultValues: {},
+		defaultValues: {
+			website: '',
+			linkedin: '',
+			github: '',
+			youtube: '',
+		},
 	})
 
 	const onSubmit = (values: z.infer<typeof socialMediaSchema>) => {

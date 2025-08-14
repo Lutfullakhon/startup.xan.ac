@@ -22,24 +22,19 @@ export const getLessons = async (section: string) => {
 export const createLesson = async (params: ICreateLesson) => {
   try {
     await connectToDatabase()
-    console.log('Connected to DB')
 
     const { lesson, section, path } = params
-    console.log('Params:', { lesson, section, path })
-
     const duration = {
       hours: Number(lesson.hours),
       minutes: Number(lesson.minutes),
       seconds: Number(lesson.seconds),
     }
-    console.log('Duration:', duration)
 
     const existSection = await Section.findById(section)
     if (!existSection) {
       throw new Error('Section not found')
     }
-    console.log('Found section:', existSection._id)
-
+    
     if (!Array.isArray(existSection.lessons)) {
       throw new Error('Section lessons field is invalid')
     }
@@ -51,16 +46,13 @@ export const createLesson = async (params: ICreateLesson) => {
       duration,
       section,
     })
-    console.log('Created lesson:', newLesson._id)
-
+    
     existSection.lessons.push(newLesson._id)
     await existSection.save()
-    console.log('Saved section after adding lesson')
-
+   
     revalidatePath(path)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    console.error('createLesson error:', error)
     throw new Error(error.message || 'Something went wrong!')
   }
 }
