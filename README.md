@@ -1,36 +1,113 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<h1 align="center" id="title">NextGen Learning Platform: A Udemy Clone Revolutionizing Online Education</h1>
 
-## Getting Started
+<p align="center"><img src="https://media.graphassets.com/cPlC13OsTaCHl8ytfxht" alt="project-image"></p>
 
-First, run the development server:
+<p id="description">Embark on a transformative journey in online education with our pioneering project a Udemy clone designed to redefine the e-learning landscape. Leveraging cutting-edge technologies and a suite of professional features our platform empowers users to engage learn and grow like never before.</p>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+<h2>🚀 Demo</h2>
+
+[https://www.xanac.uz](https://www.xanac.uz)
+
+<h2>🧐 Features</h2>
+
+Here're some of the project's best features:
+
+- Clerk for Seamless User Authentication and Management: With Clerk we ensure secure and effortless user authentication and management fostering a smooth learning experience for our users.
+- Stripe for Robust Payment Solutions and Customer Management: Integrated with Stripe our platform offers seamless payment processing allowing users to manage their cards and apply coupons effortlessly enhancing their purchasing experience.
+- I18next for Multilingual Localization: Embracing diversity our project supports localization in four languages: Turkish Russian Uzbek and English enabling learners worldwide to access content in their preferred language.
+- ShadcnUI for Intuitive UI Components and Dynamic Themes: ShadcnUI empowers us to deliver an immersive learning environment with intuitive UI components and dynamic themes including both dark and light modes ensuring optimal user experience across devices.
+- MongoDB for Robust Database Management: Backed by MongoDB our platform ensures reliable and scalable data storage facilitating seamless content delivery and user interaction.
+- OpenAI Integration for Enhanced Learning Capabilities: By integrating OpenAI we introduce advanced features such as conversation simulation code generation and image generation enriching the learning experience with AI-driven insights and creativity.
+- Server Actions and Node ExpressJS API Handlers: Utilizing Node.js with ExpressJS our platform implements efficient server actions and API handlers ensuring seamless communication between the client and server enabling real-time updates and delivering dynamic content with minimal latency.
+- Personalized Learning Paths: Our platform utilizes advanced algorithms to analyze user behavior and preferences offering personalized learning paths tailored to individual needs and goals.
+- Interactive Assessments and Quizzes: Foster active learning with interactive assessments and quizzes providing learners with real-time feedback and opportunities for self-assessment.
+- Certification and Badging: Recognize and validate learner achievements with certifications and badges enhancing motivation and credibility within the learning community.
+- Progress Tracking and Analytics: Empower users to track their progress monitor learning milestones and gain valuable insights through comprehensive analytics and progress tracking tools.
+
+<h2>🛠️ Installation Steps:</h2>
+
+<p>1. Clone project</p>
+
+```
+git clone https://github.com/samarbadriddin0v/startup.sammi.ac
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<p>2. Install packages</p>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+<p>3. Setup .env file</p>
 
-## Learn More
+```
+# CLERK AUTHORIZATION
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+NEXT_CLERK_WEBHOOK_SECRET=
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=
 
-To learn more about Next.js, take a look at the following resources:
+# HYGRAPH CMS
+NEXT_PUBLIC_GRAPHCMS_ENDPOINT=
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# TELEGRAM
+NEXT_PUBLIC_TETELGRAM_BOT_API=
+NEXT_PUBLIC_TETELGRAM_CHAT_ID=
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# MONGODB
+MONGODB_URL=
+MONGODB_DB=
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# cloudinary
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+
+
+NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=
+
+# TINY EDITOR
+NEXT_PUBLIC_TINY_API_KEY=
+
+# BASE URL
+NEXT_PUBLIC_BASE_URL=
+
+# STRIPE
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
+NEXT_PUBLIC_STRIPE_SECRET_KEY=
+
+# OPENAI
+OPENAI_API_KEY=
+```
+
+<p>4. Start the app</p>
+
+```
+npm run dev
+```
+
+<h2>💻 Built with</h2>
+
+Technologies used in the project:
+
+- ReactJS
+- NextJS
+- NodeJS
+- ExpressJS
+- Server Actions
+- Stripe
+- ShadcnUI
+- I18next
+- Clerk
+- Hello Pangea
+- Graphql
+- Next Intl
+- Openai
+- Query String
+- Tailwindcss
