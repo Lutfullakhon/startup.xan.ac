@@ -1,6 +1,6 @@
 <h1 align="center" id="title">NextGen Learning Platform: A Udemy Clone Revolutionizing Online Education</h1>
 
-<p align="center"><img src="https://media.graphassets.com/cPlC13OsTaCHl8ytfxht" alt="project-image"></p>
+<p align="center"><img src="[https://media.graphassets.com/cPlC13OsTaCHl8ytfxht](https://socialify.git.ci/Lutfullakhon/startup.xan.ac/image?language=1&owner=1&name=1&stargazers=1&theme=Light)" alt="project-image"></p>
 
 <p id="description">Embark on a transformative journey in online education with our pioneering project a Udemy clone designed to redefine the e-learning landscape. Leveraging cutting-edge technologies and a suite of professional features our platform empowers users to engage learn and grow like never before.</p>
 
