@@ -29,7 +29,7 @@ Here're some of the project's best features:
 <p>1. Clone project</p>
 
 ```
-git clone https://github.com/samarbadriddin0v/startup.sammi.ac
+git clone  https://github.com/Lutfullakhon/startup.xan.ac
 ```
 
 <p>2. Install packages</p>
