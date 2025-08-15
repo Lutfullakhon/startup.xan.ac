@@ -9,6 +9,8 @@ import {
 } from '@/components/ui/table'
 import Item from './_components/item'
 
+export const revalidate = 60
+
 async function Page() {
 	const instructors = (await getInstructors()) || []
 

@@ -7,6 +7,8 @@ import LearningJourney from './_components/learning-journey'
 import { getAdminInstructors } from '@/actions/user.action'
 import { Suspense } from 'react'
 
+export const revalidate = 60
+
 async function Page() {
 	const courses = await getFeaturedCourses()
 	const instructorData = await getAdminInstructors({ pageSize: 4 })

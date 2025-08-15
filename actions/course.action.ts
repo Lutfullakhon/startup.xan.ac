@@ -121,24 +121,26 @@ export const deleteCourse = async(id: string,
 	}
 }
 
-export const getFeaturedCourses = cache(async () => {
-	try {
-		await connectToDatabase()
-		const courses = await Course.find({ published: true })
-			.limit(6)
-			.sort({ createdAt: -1 })
-			.select('previewImage title slug oldPrice currentPrice instructor')
-			.populate({
-				path: 'instructor',
-				select: 'fullName picture clerkId',
-				model: User,
-			})
 
-		return courses
-	} catch (error) {
-		throw new Error('Something went wrong while getting featured courses!')
-	}
-})
+export const getFeaturedCourses = async () => {
+  try {
+    await connectToDatabase();
+    const courses = await Course.find({ published: true })
+      .limit(6)
+      .sort({ createdAt: -1 })
+      .select('previewImage title slug oldPrice currentPrice instructor')
+      .populate({
+        path: 'instructor',
+        select: 'fullName picture clerkId',
+        model: User,
+      });
+
+    return courses;
+  } catch {
+    throw new Error('Something went wrong while getting featured courses!');
+  }
+};
+
 
 export const getDetailedCourse = cache(async (id: string) => {
 	try {
